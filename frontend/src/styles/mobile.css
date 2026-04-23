@@ -1,0 +1,402 @@
+@media (max-width: 900px) {
+  body {
+    font-size: 20.7px;
+  }
+
+  body::before {
+    opacity: 0.12;
+    background-size: 420px 300px;
+    background-position: 18px 42px;
+  }
+
+  .home,
+  .notes-page,
+  .subject-page,
+  .pyq-subject-page,
+  .admin-page {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .hero {
+    padding-top: 56px;
+    padding-bottom: 44px;
+  }
+
+  .hero__title {
+    font-size: 48.3px;
+  }
+
+  .scheme-grid,
+  .subject-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .request-box__row {
+    grid-template-columns: 1fr;
+  }
+
+  .request-box__footer {
+    margin-top: 10px;
+  }
+
+  .request-box__footer .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 18.4px;
+  }
+
+  .navbar {
+    height: auto;
+    min-height: 56px;
+    padding: 10px 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .navbar__logo {
+    font-size: 21.85px;
+  }
+
+  .navbar__links {
+    margin-left: auto;
+    gap: 14px;
+  }
+
+  .navbar__links a,
+  .navbar__links span {
+    font-size: 17.25px;
+  }
+
+  .home,
+  .notes-page,
+  .subject-page,
+  .pyq-subject-page,
+  .admin-page {
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-bottom: 36px;
+  }
+
+  .hero {
+    padding: 42px 8px 30px;
+  }
+
+  .hero__title {
+    font-size: 39.1px;
+  }
+
+  .hero__tagline {
+    font-size: 19.55px;
+  }
+
+  .hero__sub {
+    font-size: 17.25px;
+  }
+
+  .nav-labels,
+  .scheme-grid,
+  .subject-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .request-box,
+  .nav-label-card,
+  .scheme-card,
+  .subject-card {
+    padding: 16px;
+  }
+
+  .subject-card__footer {
+    gap: 10px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .notes-page__header,
+  .subject-page__header,
+  .pyq-subject-page__header {
+    padding-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .notes-page__title,
+  .subject-page__title {
+    font-size: 32.2px;
+  }
+
+  .notes-page__subtitle,
+  .subject-page__meta,
+  .pyq-subject-page__meta {
+    font-size: 17.25px;
+    flex-wrap: wrap;
+  }
+
+  .branch-section {
+    margin-top: 26px;
+  }
+
+  .branch-label {
+    font-size: 14.95px;
+    margin-bottom: 12px;
+  }
+
+  .syllabus-card,
+  .module-card__header,
+  .subject-page__pyq-link,
+  .paper-block__header,
+  .paper-row__header,
+  .notification-card,
+  .admin-file-card,
+  .batch-upload__header {
+    padding: 14px;
+  }
+
+  .syllabus-card__label {
+    align-items: stretch;
+    gap: 12px;
+    flex-direction: column;
+  }
+
+  .module-card__header {
+    align-items: flex-start;
+  }
+
+  .module-card__left {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .module-card__title {
+    font-size: 18.4px;
+  }
+
+  .subject-page__pyq-link {
+    gap: 10px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .paper-block__title {
+    font-size: 23px;
+  }
+
+  .paper-row__header {
+    gap: 8px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .paper-row__action {
+    font-size: 16.1px;
+  }
+
+  .pdf-viewer__toolbar {
+    top: 56px;
+    gap: 10px;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .pdf-viewer__title {
+    font-size: 16.1px;
+  }
+
+  .pdf-viewer__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .pdf-viewer__button {
+    min-height: 34px;
+    padding: 0 10px;
+    font-size: 16.1px;
+  }
+
+  .pdf-viewer__pages {
+    min-height: 360px;
+    max-height: 70vh;
+    padding: 8px;
+  }
+
+  .admin-login {
+    margin-top: 58px;
+    padding: 22px 16px;
+  }
+
+  .admin-login__title {
+    font-size: 26.45px;
+  }
+
+  .admin-login__sub {
+    font-size: 17.25px;
+    margin-bottom: 14px;
+  }
+
+  .admin-header {
+    gap: 10px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-header .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .admin-tabs {
+    width: 100%;
+    overflow-x: auto;
+    padding: 4px;
+  }
+
+  .admin-tab {
+    white-space: nowrap;
+    font-size: 17.25px;
+    padding: 8px 12px;
+  }
+
+  .batch-upload__title {
+    font-size: 23px;
+  }
+
+  .batch-upload__sub {
+    font-size: 16.1px;
+  }
+
+  .batch-upload__header > .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .batch-table {
+    font-size: 16.1px;
+  }
+
+  .batch-table th,
+  .batch-table td {
+    padding: 8px 10px;
+  }
+
+  .upload-row__control {
+    min-width: 110px;
+  }
+
+  .upload-row__course {
+    min-width: 150px;
+  }
+
+  .upload-row__small {
+    width: 84px;
+  }
+
+  .upload-row__file {
+    min-width: 140px;
+    min-height: 36px;
+  }
+
+  .batch-actions {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .batch-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .notification-card__header,
+  .admin-file-card {
+    gap: 8px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .notification-card__subject,
+  .admin-file-card__title {
+    font-size: 18.4px;
+  }
+
+  .notification-card__message,
+  .admin-file-card__meta {
+    font-size: 16.1px;
+  }
+
+  .logs-panel__actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .logs-panel__actions .btn {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 390px) and (max-height: 700px) {
+  .navbar {
+    padding-left: max(10px, env(safe-area-inset-left));
+    padding-right: max(10px, env(safe-area-inset-right));
+  }
+
+  .navbar__logo {
+    font-size: 19.55px;
+  }
+
+  .navbar__links {
+    gap: 10px;
+  }
+
+  .navbar__links a,
+  .navbar__links span {
+    font-size: 16.1px;
+  }
+
+  .hero {
+    padding-top: 32px;
+    padding-bottom: 24px;
+  }
+
+  .hero__eyebrow {
+    margin-bottom: 12px;
+  }
+
+  .hero__title {
+    font-size: 34.5px;
+    line-height: 1.15;
+  }
+
+  .hero__tagline {
+    font-size: 18.4px;
+  }
+
+  .request-box {
+    margin-top: 22px;
+    padding: 14px;
+  }
+
+  .notes-page__title,
+  .subject-page__title {
+    font-size: 27.6px;
+  }
+
+  .subject-card__name {
+    font-size: 19.55px;
+  }
+
+  .paper-block__title {
+    font-size: 20.7px;
+  }
+
+  .pdf-viewer__pages {
+    min-height: 320px;
+    max-height: 66vh;
+  }
+}

@@ -1,0 +1,230 @@
+.home {
+  max-width: 989px;
+  margin: 0 auto;
+  padding: 0 27.6px 55.2px;
+}
+
+/* ── Hero ───────────────────────────────────────────────── */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 82.8px 27.6px 64.4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero__eyebrow {
+  display: inline-block;
+  font-size: 17.94px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--blue);
+  background: var(--blue-bg);
+  border: 1px solid var(--blue-dim);
+  border-radius: 113.85px;
+  padding: 3.45px 16.1px;
+  margin-bottom: 23px;
+}
+
+.hero__title {
+  font-family: var(--font-serif);
+  font-size: 60.72px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 13.8px;
+}
+
+.hero__tagline {
+  font-size: 24.84px;
+  color: var(--text2);
+  font-style: italic;
+  margin-bottom: 6.9px;
+}
+
+.hero__sub {
+  font-size: 20.7px;
+  color: var(--text3);
+}
+
+/* ── Nav Labels ─────────────────────────────────────────── */
+.nav-labels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16.1px;
+  padding: 32.2px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-label-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 23px 25.3px;
+  transition: border-color 0.15s, background 0.15s;
+  display: block;
+}
+
+.nav-label-card:hover {
+  border-color: var(--green);
+  background: var(--bg3);
+}
+
+.nav-label-card--disabled {
+  opacity: 0.38;
+  pointer-events: none;
+}
+
+.nav-label-card__icon {
+  width: 36.8px;
+  height: 36.8px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22.08px;
+  margin-bottom: 13.8px;
+  border: 1px solid transparent;
+}
+
+.nav-label-card__icon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nav-label-card__icon--green {
+  background: linear-gradient(135deg, #315742 0%, #233b2f 100%);
+  color: #96d9b5;
+  border-color: #4d7b63;
+}
+
+.nav-label-card__icon--blue {
+  background: linear-gradient(135deg, #3f546f 0%, #2a3749 100%);
+  color: #a6c8e6;
+  border-color: #607f9d;
+}
+
+.nav-label-card h2 {
+  font-size: 24.84px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 4.6px;
+}
+
+.nav-label-card p {
+  font-size: 19.32px;
+  color: var(--text2);
+}
+
+/* ── Latest Uploads ─────────────────────────────────────── */
+.latest-uploads {
+  margin-top: 32.2px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 32.2px;
+}
+
+.latest-uploads__header {
+  margin-bottom: 13.8px;
+}
+
+.latest-uploads__header h2 {
+  font-size: 27.6px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.latest-uploads__header p {
+  color: var(--text2);
+  font-size: 19.32px;
+}
+
+.latest-uploads__empty {
+  color: var(--text3);
+  font-size: 19.32px;
+}
+
+.latest-uploads__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 11.5px;
+}
+
+.latest-upload-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 13.8px 16.1px;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.latest-upload-card:hover {
+  border-color: var(--green);
+  background: var(--bg3);
+}
+
+.latest-upload-card__title {
+  color: var(--text);
+  font-size: 19.32px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.latest-upload-card__meta {
+  color: var(--text2);
+  font-size: 16.56px;
+}
+
+.latest-upload-card__date {
+  color: var(--text3);
+  font-size: 15.18px;
+  margin-top: 4.6px;
+}
+
+/* ── Request Box ────────────────────────────────────────── */
+.request-box {
+  margin-top: 36.8px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 25.3px 27.6px;
+}
+
+.request-box__title {
+  font-size: 23.46px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 16.1px;
+}
+
+.request-box__row {
+  display: grid;
+  grid-template-columns: 1fr 161px;
+  gap: 9.2px;
+  margin-bottom: 9.2px;
+}
+
+.request-box__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4.6px;
+}
+
+.request-box__status {
+  font-size: 16.56px;
+  margin-top: 9.2px;
+}
+
+.request-box__status--success { color: var(--green); }
+.request-box__status--error   { color: #e07070; }
+
+@media (max-width: 620px) {
+  .latest-uploads__grid {
+    grid-template-columns: 1fr;
+  }
+}

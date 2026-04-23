@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap');
+
+/* ── CSS Variables ─────────────────────────────────────── */
+:root {
+  --bg:          #2a3530;
+  --bg2:         #303d37;
+  --bg3:         #38473f;
+  --border:      #4a5e54;
+  --border-soft: #3d5248;
+
+  --text:        #d6e4dc;
+  --text2:       #93b0a0;
+  --text3:       #5e7d6e;
+
+  --green:       #6aab82;
+  --green-dim:   #3d6b50;
+  --green-bg:    #243830;
+
+  --blue:        #5b9bbf;
+  --blue-dim:    #2d5a75;
+  --blue-bg:     #1e3545;
+
+  --radius-sm:   7px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+
+  --font-serif:  'Lora', Georgia, serif;
+  --font-sans:   'DM Sans', system-ui, sans-serif;
+
+  --shadow:      0 8px 24px rgba(0,0,0,0.18);
+}
+
+/* ── Reset ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: 23.46px;
+  position: relative;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='540' height='380' viewBox='0 0 540 380'%3E%3Cg fill='none' stroke='%2393b0a0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' opacity='.58'%3E%3Cpath d='M48 80h78v60H48zM58 90h58M58 103h48M86 80v60'/%3E%3Cpath d='M188 70c14-8 34-8 48 0v76c-14-8-34-8-48 0zM236 70c14-8 34-8 48 0v76c-14-8-34-8-48 0zM236 70v76'/%3E%3Cpath d='M386 86l76 76-14 14-76-76zM366 80l20 6-14 14z'/%3E%3Cpath d='M80 270h92M91 224h70l11 46H80zM101 236h48M105 249h38'/%3E%3Cpath d='M292 226h88v62h-88zM306 240h60M306 254h42M306 268h54'/%3E%3Cpath d='M438 252c16 0 28 10 28 24s-12 24-28 24h-42v-48zM466 268h18c8 0 14 6 14 13s-6 13-14 13h-18'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 540px 380px;
+  background-position: 38px 68px;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+:where(
+  .nav-label-card,
+  .request-box,
+  .scheme-card,
+  .subject-card,
+  .syllabus-card,
+  .module-card,
+  .paper-block,
+  .notification-card,
+  .admin-file-card,
+  .admin-login,
+  .batch-upload__header,
+  .batch-table-wrapper,
+  .pdf-viewer
+) {
+  box-shadow: var(--shadow);
+}
+
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: var(--font-sans); }
+input, select, textarea { font-family: var(--font-sans); }
+img { max-width: 100%; display: block; }
+
+/* ── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6.9px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 113.85px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text3); }

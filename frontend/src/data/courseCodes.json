@@ -1,0 +1,15 @@
+{
+  "courseCodes": {
+    "BCS401": "Analysis and Design of Algorithms",
+    "BCS402": "Microcontrollers",
+    "BCS403": "DBMS - Database Management System",
+    "BCSL404": "Analysis and Design of Algorithms Lab",
+    "BCS405A" : "Discrete Mathematical Structures",
+    "BCS405B": "Graph Theory",
+    "BCS456B": "UI/UX",
+    "BDSL456B": "MangoDB",
+    "BAD402" : "Artificial Intelligence",
+    "BBOC407" : "Biology"
+    
+  }
+}
