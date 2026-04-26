@@ -17,7 +17,12 @@ router.post('/login', async (req, res, next) => {
     }
 
     const token = jwt.sign(admin, process.env.JWT_SECRET, { expiresIn: '7d' })
-    appendLog('login', { actor: admin.username, status: 'success', message: `${admin.role} logged in` })
+    appendLog('login', {
+      actor: admin.username,
+      actorName: admin.name,
+      status: 'success',
+      message: `${admin.role} logged in`
+    })
     return res.json({ token, admin })
   } catch (err) {
     next(err)

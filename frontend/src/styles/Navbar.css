@@ -13,7 +13,7 @@
 
 .navbar__logo {
   font-family: var(--font-serif);
-  font-size: 26.22px;
+  font-size: var(--fs-2xl);
   font-weight: 500;
   color: var(--green);
   letter-spacing: 0.02em;
@@ -27,7 +27,7 @@
 
 .navbar__links a,
 .navbar__links span {
-  font-size: 22.08px;
+  font-size: var(--fs-xl);
   color: var(--text2);
   padding-bottom: 2.3px;
   transition: color 0.15s;

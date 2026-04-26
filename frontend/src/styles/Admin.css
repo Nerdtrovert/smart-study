@@ -16,13 +16,13 @@
 
 .admin-login__title {
   font-family: var(--font-serif);
-  font-size: 31.74px;
+  font-size: var(--fs-4xl);
   color: var(--text);
   margin-bottom: 6.9px;
 }
 
 .admin-login__sub {
-  font-size: 22.08px;
+  font-size: var(--fs-xl);
   color: var(--text3);
   margin-bottom: 23px;
 }
@@ -32,7 +32,7 @@
 }
 
 .admin-login__error {
-  font-size: 22.08px;
+  font-size: var(--fs-xl);
   color: #e07070;
   margin-top: 9.2px;
 }
@@ -49,7 +49,7 @@
 
 .admin-header__title {
   font-family: var(--font-serif);
-  font-size: 31.74px;
+  font-size: var(--fs-4xl);
   color: var(--text);
 }
 
@@ -66,7 +66,7 @@
 }
 
 .admin-tab {
-  font-size: 20.7px;
+  font-size: var(--fs-lg);
   font-weight: 500;
   padding: 6.9px 18.4px;
   border-radius: 4.6px;
@@ -97,20 +97,20 @@
 
 .catalog-health__title {
   color: var(--text);
-  font-size: 19.32px;
+  font-size: var(--fs-lg);
   font-weight: 500;
   margin-bottom: 4.6px;
 }
 
 .catalog-health__sub {
   color: var(--text2);
-  font-size: 17.94px;
+  font-size: var(--fs-md);
 }
 
 .catalog-health__status {
   margin-top: 9.2px;
   color: var(--text3);
-  font-size: 17.94px;
+  font-size: var(--fs-md);
 }
 
 .catalog-health__status--warn {
@@ -136,7 +136,7 @@
   border: 1px solid var(--border);
   background: var(--bg3);
   color: var(--text2);
-  font-size: 16.56px;
+  font-size: var(--fs-sm);
 }
 
 .batch-upload__header {
@@ -152,14 +152,14 @@
 
 .batch-upload__title {
   color: var(--text);
-  font-size: 27.6px;
+  font-size: var(--fs-3xl);
   font-weight: 500;
   margin-bottom: 4.6px;
 }
 
 .batch-upload__sub {
   color: var(--text2);
-  font-size: 19.32px;
+  font-size: var(--fs-lg);
   max-width: 760px;
 }
 
@@ -173,13 +173,13 @@
 .batch-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 20.7px;
+  font-size: var(--fs-lg);
 }
 
 .batch-table th {
   background: var(--bg3);
   color: var(--text3);
-  font-size: 17.94px;
+  font-size: var(--fs-md);
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -202,7 +202,7 @@
 .batch-table tr.row--uploading td { background: rgba(91, 155, 191, 0.06); }
 
 .batch-table__status {
-  font-size: 17.94px;
+  font-size: var(--fs-md);
   padding: 2.3px 9.2px;
   border-radius: 4.6px;
   display: inline-block;
@@ -285,13 +285,13 @@
 }
 
 .notification-card__subject {
-  font-size: 22.08px;
+  font-size: var(--fs-xl);
   font-weight: 500;
   color: var(--text);
 }
 
 .notification-card__sem {
-  font-size: 17.94px;
+  font-size: var(--fs-md);
   color: var(--blue);
   background: var(--blue-bg);
   border: 1px solid var(--blue-dim);
@@ -300,13 +300,13 @@
 }
 
 .notification-card__message {
-  font-size: 20.7px;
+  font-size: var(--fs-lg);
   color: var(--text2);
   margin-bottom: 6.9px;
 }
 
 .notification-card__date {
-  font-size: 17.94px;
+  font-size: var(--fs-md);
   color: var(--text3);
 }
 
@@ -335,20 +335,25 @@
 
 .admin-file-card__title {
   color: var(--text);
-  font-size: 22.08px;
+  font-size: var(--fs-xl);
   font-weight: 500;
 }
 
 .admin-file-card__meta,
 .admin-empty {
   color: var(--text3);
-  font-size: 19.32px;
+  font-size: var(--fs-lg);
 }
 
 .admin-error {
   color: #e07070;
-  font-size: 19.32px;
+  font-size: var(--fs-lg);
   margin-top: 9.2px;
+}
+
+.admin-muted {
+  color: var(--text3);
+  font-size: var(--fs-sm);
 }
 
 @media (max-width: 720px) {

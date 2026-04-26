@@ -11,7 +11,7 @@
 }
 
 .subject-page__back {
-  font-size: 19.32px;
+  font-size: var(--fs-lg);
   color: var(--text3);
   display: inline-flex;
   align-items: center;
@@ -24,13 +24,13 @@
 
 .subject-page__title {
   font-family: var(--font-serif);
-  font-size: 38.64px;
+  font-size: var(--fs-5xl);
   font-weight: 500;
   color: var(--text);
   margin-bottom: 6.9px;
 }
 
-.subject-page__meta { font-size: 20.7px; color: var(--text2); }
+.subject-page__meta { font-size: var(--fs-lg); color: var(--text2); }
 .subject-page__meta span { color: var(--blue); margin: 0 5.75px; }
 
 /* ── Syllabus Card ──────────────────────────────────────── */
@@ -57,11 +57,11 @@
   background: var(--blue-dim);
   color: var(--blue);
   display: flex; align-items: center; justify-content: center;
-  font-size: 19.32px; font-weight: 500;
+  font-size: var(--fs-lg); font-weight: 500;
 }
 
-.syllabus-card__text { font-size: 20.7px; font-weight: 500; color: var(--text); }
-.syllabus-card__sub  { font-size: 17.94px; color: var(--text2); margin-top: 2px; }
+.syllabus-card__text { font-size: var(--fs-lg); font-weight: 500; color: var(--text); }
+.syllabus-card__sub  { font-size: var(--fs-md); color: var(--text2); margin-top: 2px; }
 
 .syllabus-card__viewer {
   margin-top: 18.4px;
@@ -74,7 +74,7 @@
 
 /* ── Module List ────────────────────────────────────────── */
 .module-list { display: flex; flex-direction: column; gap: 11.5px; }
-.module-list__empty { text-align: center; padding: 36px 0; color: var(--text3); font-size: 20.7px; }
+.module-list__empty { text-align: center; padding: 36px 0; color: var(--text3); font-size: var(--fs-lg); }
 
 /* ── Module Card ────────────────────────────────────────── */
 .module-card {
@@ -103,19 +103,25 @@
   border-radius: var(--radius-sm);
   background: var(--green-dim);
   color: var(--green);
-  font-size: 19.32px; font-weight: 500;
+  font-size: var(--fs-lg); font-weight: 500;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
 
-.module-card__title  { font-size: 20.7px; font-weight: 500; color: var(--text); }
-.module-card__chevron { font-size: 16.56px; color: var(--text3); transition: transform 0.2s; }
+.module-card__title  { font-size: var(--fs-lg); font-weight: 500; color: var(--text); }
+.module-card__chevron { font-size: var(--fs-sm); color: var(--text3); transition: transform 0.2s; }
 .module-card--open .module-card__chevron { transform: rotate(180deg); }
 
 .module-card__body {
   border-top: 1px solid var(--border);
   padding: 20.7px;
   background: var(--bg3);
+}
+
+.subject-page__loading {
+  padding: 40px;
+  color: var(--text3);
+  font-size: var(--fs-lg);
 }
 
 /* ── PYQ link at bottom of subject page ─────────────────── */
@@ -141,7 +147,7 @@
   background: var(--bg2);
 }
 
-.subject-page__pyq-link__left h3 { font-size: 22.08px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
-.subject-page__pyq-link__left p  { font-size: 19.32px; color: var(--text2); }
+.subject-page__pyq-link__left h3 { font-size: var(--fs-xl); font-weight: 500; color: var(--text); margin-bottom: 4px; }
+.subject-page__pyq-link__left p  { font-size: var(--fs-lg); color: var(--text2); }
 
-.subject-page__pyq-link__arrow { font-size: 24.84px; color: var(--blue); }
+.subject-page__pyq-link__arrow { font-size: var(--fs-2xl); color: var(--blue); }

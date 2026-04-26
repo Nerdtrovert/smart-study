@@ -1,3 +1,14 @@
 {
-  "admins": []
+  "admins": [
+    {
+      "name": "sudhnava",
+      "username": "daredevil",
+      "password": "sinchanva8488"
+    },
+    {
+      "name": "shireesha",
+      "username": "shireesha",
+      "password": "shireesha123"
+    }
+  ]
 }

@@ -45,7 +45,12 @@ router.get('/files', authMiddleware, async (req, res, next) => {
 
 router.get('/logs/download', authMiddleware, mainAdminOnly, (req, res) => {
   const file = getLogFilePath()
-  appendLog('log_download', { actor: req.admin.username, status: 'success', message: 'Admin log downloaded' })
+  appendLog('log_download', {
+    actor: req.admin.username,
+    actorName: req.admin.name,
+    status: 'success',
+    message: 'Admin log downloaded'
+  })
   res.download(file, `smart-study-admin-${new Date().toISOString().split('T')[0]}.log`)
 })
 

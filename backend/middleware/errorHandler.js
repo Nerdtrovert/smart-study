@@ -4,6 +4,7 @@ module.exports = function errorHandler(err, req, res, next) {
   console.error(err)
   appendLog('error', {
     actor: req.admin?.username || 'system',
+    actorName: req.admin?.name,
     status: 'failed',
     message: `${req.method} ${req.originalUrl}: ${err.message || 'Internal server error'}`
   })

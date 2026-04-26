@@ -13,8 +13,8 @@ export default function NotificationsPanel() {
       .finally(() => setLoading(false))
   }, [])
 
-  if (loading) return <p style={{ color: 'var(--text3)', fontSize: 15.6 }}>Loading requests...</p>
-  if (requests.length === 0) return <p style={{ color: 'var(--text3)', fontSize: 15.6 }}>No requests yet.</p>
+  if (loading) return <p className="admin-muted">Loading requests...</p>
+  if (requests.length === 0) return <p className="admin-muted">No requests yet.</p>
 
   return (
     <div className="notifications">

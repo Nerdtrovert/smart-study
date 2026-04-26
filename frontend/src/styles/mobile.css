@@ -1,6 +1,6 @@
 @media (max-width: 900px) {
   body {
-    font-size: 20.7px;
+    font-size: var(--fs-sm);
   }
 
   body::before {
@@ -24,7 +24,7 @@
   }
 
   .hero__title {
-    font-size: 48.3px;
+    font-size: var(--fs-6xl);
   }
 
   .scheme-grid,
@@ -48,7 +48,7 @@
 
 @media (max-width: 640px) {
   body {
-    font-size: 18.4px;
+    font-size: var(--fs-sm);
   }
 
   .navbar {
@@ -60,7 +60,7 @@
   }
 
   .navbar__logo {
-    font-size: 21.85px;
+    font-size: var(--fs-xl);
   }
 
   .navbar__links {
@@ -70,7 +70,7 @@
 
   .navbar__links a,
   .navbar__links span {
-    font-size: 17.25px;
+    font-size: var(--fs-md);
   }
 
   .home,
@@ -88,15 +88,15 @@
   }
 
   .hero__title {
-    font-size: 39.1px;
+    font-size: var(--fs-5xl);
   }
 
   .hero__tagline {
-    font-size: 19.55px;
+    font-size: var(--fs-lg);
   }
 
   .hero__sub {
-    font-size: 17.25px;
+    font-size: var(--fs-md);
   }
 
   .nav-labels,
@@ -127,13 +127,13 @@
 
   .notes-page__title,
   .subject-page__title {
-    font-size: 32.2px;
+    font-size: var(--fs-4xl);
   }
 
   .notes-page__subtitle,
   .subject-page__meta,
   .pyq-subject-page__meta {
-    font-size: 17.25px;
+    font-size: var(--fs-md);
     flex-wrap: wrap;
   }
 
@@ -142,7 +142,7 @@
   }
 
   .branch-label {
-    font-size: 14.95px;
+    font-size: var(--fs-caption);
     margin-bottom: 12px;
   }
 
@@ -173,7 +173,7 @@
   }
 
   .module-card__title {
-    font-size: 18.4px;
+    font-size: var(--fs-md);
   }
 
   .subject-page__pyq-link {
@@ -183,7 +183,7 @@
   }
 
   .paper-block__title {
-    font-size: 23px;
+    font-size: var(--fs-xl);
   }
 
   .paper-row__header {
@@ -193,7 +193,7 @@
   }
 
   .paper-row__action {
-    font-size: 16.1px;
+    font-size: var(--fs-sm);
   }
 
   .pdf-viewer__toolbar {
@@ -204,7 +204,7 @@
   }
 
   .pdf-viewer__title {
-    font-size: 16.1px;
+    font-size: var(--fs-sm);
   }
 
   .pdf-viewer__actions {
@@ -216,7 +216,7 @@
   .pdf-viewer__button {
     min-height: 34px;
     padding: 0 10px;
-    font-size: 16.1px;
+    font-size: var(--fs-sm);
   }
 
   .pdf-viewer__pages {
@@ -231,11 +231,11 @@
   }
 
   .admin-login__title {
-    font-size: 26.45px;
+    font-size: var(--fs-2xl);
   }
 
   .admin-login__sub {
-    font-size: 17.25px;
+    font-size: var(--fs-md);
     margin-bottom: 14px;
   }
 
@@ -258,16 +258,16 @@
 
   .admin-tab {
     white-space: nowrap;
-    font-size: 17.25px;
+    font-size: var(--fs-md);
     padding: 8px 12px;
   }
 
   .batch-upload__title {
-    font-size: 23px;
+    font-size: var(--fs-xl);
   }
 
   .batch-upload__sub {
-    font-size: 16.1px;
+    font-size: var(--fs-sm);
   }
 
   .batch-upload__header > .btn {
@@ -276,7 +276,7 @@
   }
 
   .batch-table {
-    font-size: 16.1px;
+    font-size: var(--fs-sm);
   }
 
   .batch-table th,
@@ -320,12 +320,12 @@
 
   .notification-card__subject,
   .admin-file-card__title {
-    font-size: 18.4px;
+    font-size: var(--fs-md);
   }
 
   .notification-card__message,
   .admin-file-card__meta {
-    font-size: 16.1px;
+    font-size: var(--fs-sm);
   }
 
   .logs-panel__actions {
@@ -347,7 +347,7 @@
   }
 
   .navbar__logo {
-    font-size: 19.55px;
+    font-size: var(--fs-lg);
   }
 
   .navbar__links {
@@ -356,7 +356,7 @@
 
   .navbar__links a,
   .navbar__links span {
-    font-size: 16.1px;
+    font-size: var(--fs-sm);
   }
 
   .hero {
@@ -369,12 +369,12 @@
   }
 
   .hero__title {
-    font-size: 34.5px;
+    font-size: var(--fs-4xl);
     line-height: 1.15;
   }
 
   .hero__tagline {
-    font-size: 18.4px;
+    font-size: var(--fs-md);
   }
 
   .request-box {
@@ -384,15 +384,15 @@
 
   .notes-page__title,
   .subject-page__title {
-    font-size: 27.6px;
+    font-size: var(--fs-3xl);
   }
 
   .subject-card__name {
-    font-size: 19.55px;
+    font-size: var(--fs-lg);
   }
 
   .paper-block__title {
-    font-size: 20.7px;
+    font-size: var(--fs-lg);
   }
 
   .pdf-viewer__pages {

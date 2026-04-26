@@ -4,7 +4,7 @@
   background: var(--bg3);
   border: 1px solid var(--border);
   color: var(--text);
-  font-size: 20.7px;
+  font-size: var(--fs-lg);
   border-radius: var(--radius-sm);
   padding: 10.35px 14.95px;
   outline: none;
@@ -25,7 +25,7 @@
   background: var(--bg2);
   border: 1px solid var(--border);
   color: var(--text);
-  font-size: 20.7px;
+  font-size: var(--fs-lg);
   border-radius: var(--radius-sm);
   padding: 9.2px 36.8px 9.2px 13.8px;
   outline: none;
@@ -45,7 +45,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6.9px;
-  font-size: 20.7px;
+  font-size: var(--fs-lg);
   font-weight: 500;
   border-radius: var(--radius-sm);
   padding: 10.35px 23px;

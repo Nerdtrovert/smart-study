@@ -68,7 +68,7 @@ export default function SubjectPage() {
 
   if (loading) return (
     <main className="subject-page">
-      <p style={{ padding: 40, color: 'var(--text3)', fontSize: 19.2 }}>Loading...</p>
+      <p className="subject-page__loading">Loading...</p>
     </main>
   )
 

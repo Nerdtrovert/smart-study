@@ -17,13 +17,9 @@ npm run dev
 ### Frontend
 cd frontend && npm install
 npm run dev
+Frontend runs on http://localhost:5175
 
 ## Deployment notes
 - Render: add `apt-get install -y ghostscript` as build command for PDF compression
 - Set all .env vars in Render/Netlify dashboard
 - DRIVE_FOLDER_ID: create a folder in Drive, share it with your service account email
-
-## Course code labels
-- Upload flow needs only `subject_code` (and branch for notes).
-- Branch grouping comes from uploaded note records, not from `courseCodes.json`.
-- Keep `frontend/src/data/courseCodes.json` updated with `code -> course name` to display `CODE - Name` in the frontend.

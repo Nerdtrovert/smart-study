@@ -11,7 +11,7 @@
 
 .notes-page__title {
   font-family: var(--font-serif);
-  font-size: 38.64px;
+  font-size: var(--fs-5xl);
   font-weight: 500;
   color: var(--text);
   margin-bottom: 9.2px;
@@ -22,14 +22,14 @@
   align-items: center;
   gap: 9.2px;
   color: var(--text2);
-  font-size: 20.7px;
+  font-size: var(--fs-lg);
   padding-bottom: 23px;
 }
 
 .notes-page__back {
   display: inline-flex;
   color: var(--blue);
-  font-size: 19.32px;
+  font-size: var(--fs-lg);
   margin: 0 0 13.8px;
 }
 
@@ -56,7 +56,7 @@
 
 .scheme-card__eyebrow {
   color: var(--green);
-  font-size: 16.56px;
+  font-size: var(--fs-sm);
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -65,14 +65,14 @@
 
 .scheme-card__title {
   color: var(--text);
-  font-size: 27.6px;
+  font-size: var(--fs-3xl);
   font-weight: 500;
   margin-bottom: 4.6px;
 }
 
 .scheme-card__description {
   color: var(--text2);
-  font-size: 19.32px;
+  font-size: var(--fs-lg);
 }
 
 .semester-grid {
@@ -99,7 +99,7 @@
 }
 
 .semester-card__label {
-  font-size: 20.7px;
+  font-size: var(--fs-lg);
   font-weight: 500;
 }
 
@@ -130,7 +130,7 @@
 }
 
 .branch-label {
-  font-size: 17.94px;
+  font-size: var(--fs-md);
   font-weight: 500;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -162,8 +162,8 @@
 }
 .subject-card:hover { border-color: var(--blue); background: var(--bg3); }
 
-.subject-card__name { font-size: 22.08px; font-weight: 500; color: var(--text); line-height: 1.4; }
-.subject-card__meta { font-size: 17.94px; color: var(--text2); }
+.subject-card__name { font-size: var(--fs-xl); font-weight: 500; color: var(--text); line-height: 1.4; }
+.subject-card__meta { font-size: var(--fs-md); color: var(--text2); }
 
 .subject-card__footer {
   display: flex;
@@ -176,7 +176,7 @@
   display: flex;
   align-items: center;
   gap: 6.9px;
-  font-size: 17.94px;
+  font-size: var(--fs-md);
   color: var(--blue);
 }
 
@@ -188,7 +188,7 @@
 }
 
 .subject-card__arrow {
-  font-size: 20.7px;
+  font-size: var(--fs-lg);
   color: var(--text3);
   transition: color 0.15s, transform 0.15s;
 }
@@ -198,7 +198,7 @@
   text-align: center;
   padding: 64.4px 0;
   color: var(--text3);
-  font-size: 22.08px;
+  font-size: var(--fs-xl);
 }
 
 @media (max-width: 680px) { .subject-grid { grid-template-columns: repeat(2, 1fr); } }

@@ -55,12 +55,12 @@ router.post('/note', authMiddleware, upload.single('file'), async (req, res, nex
     )
 
     if (validationError) {
-      appendLog('note_upload', { actor: req.admin.username, status: 'failed', message: validationError })
+      appendLog('note_upload', { actor: req.admin.username, actorName: req.admin.name, status: 'failed', message: validationError })
       return res.status(400).json({ error: validationError })
     }
     if (!BRANCHES.includes(normalizedBranch)) {
       const branchError = `Branch must be one of: ${BRANCHES.join(', ')}`
-      appendLog('note_upload', { actor: req.admin.username, status: 'failed', message: branchError })
+      appendLog('note_upload', { actor: req.admin.username, actorName: req.admin.name, status: 'failed', message: branchError })
       return res.status(400).json({ error: branchError })
     }
 
@@ -83,6 +83,7 @@ router.post('/note', authMiddleware, upload.single('file'), async (req, res, nex
     await appendRecord('notes', record)
     appendLog('note_upload', {
       actor: req.admin.username,
+      actorName: req.admin.name,
       status: 'success',
       message: `${normalizedCode} sem ${semester} ${note_type}${module_number ? ` ${module_number}` : ''}`
     })
@@ -91,7 +92,7 @@ router.post('/note', authMiddleware, upload.single('file'), async (req, res, nex
 
     res.json({ ok: true, record })
   } catch (err) {
-    appendLog('note_upload', { actor: req.admin?.username, status: 'failed', message: err.message })
+    appendLog('note_upload', { actor: req.admin?.username, actorName: req.admin?.name, status: 'failed', message: err.message })
     cleanupFiles(req.file?.path, compressed)
     next(err)
   }
@@ -112,7 +113,7 @@ router.post('/pyq', authMiddleware, upload.single('file'), async (req, res, next
     )
 
     if (validationError) {
-      appendLog('pyq_upload', { actor: req.admin.username, status: 'failed', message: validationError })
+      appendLog('pyq_upload', { actor: req.admin.username, actorName: req.admin.name, status: 'failed', message: validationError })
       return res.status(400).json({ error: validationError })
     }
 
@@ -134,6 +135,7 @@ router.post('/pyq', authMiddleware, upload.single('file'), async (req, res, next
     await appendRecord('pyqs', record)
     appendLog('pyq_upload', {
       actor: req.admin.username,
+      actorName: req.admin.name,
       status: 'success',
       message: `${normalizedCode} sem ${semester} ${exam_type}${year ? ` ${year}` : ''}`
     })
@@ -142,7 +144,7 @@ router.post('/pyq', authMiddleware, upload.single('file'), async (req, res, next
 
     res.json({ ok: true, record })
   } catch (err) {
-    appendLog('pyq_upload', { actor: req.admin?.username, status: 'failed', message: err.message })
+    appendLog('pyq_upload', { actor: req.admin?.username, actorName: req.admin?.name, status: 'failed', message: err.message })
     cleanupFiles(req.file?.path, compressed)
     next(err)
   }
@@ -159,12 +161,13 @@ router.delete('/note/:id', authMiddleware, mainAdminOnly, async (req, res, next)
 
     appendLog('note_delete', {
       actor: req.admin.username,
+      actorName: req.admin.name,
       status: 'success',
       message: `${record.subject} ${record.type}${record.module_number ? ` ${record.module_number}` : ''}`
     })
     res.json({ ok: true })
   } catch (err) {
-    appendLog('note_delete', { actor: req.admin?.username, status: 'failed', message: err.message })
+    appendLog('note_delete', { actor: req.admin?.username, actorName: req.admin?.name, status: 'failed', message: err.message })
     next(err)
   }
 })
@@ -180,12 +183,13 @@ router.delete('/pyq/:id', authMiddleware, mainAdminOnly, async (req, res, next) 
 
     appendLog('pyq_delete', {
       actor: req.admin.username,
+      actorName: req.admin.name,
       status: 'success',
       message: `${record.subject_code} ${record.exam_type}${record.year ? ` ${record.year}` : ''}`
     })
     res.json({ ok: true })
   } catch (err) {
-    appendLog('pyq_delete', { actor: req.admin?.username, status: 'failed', message: err.message })
+    appendLog('pyq_delete', { actor: req.admin?.username, actorName: req.admin?.name, status: 'failed', message: err.message })
     next(err)
   }
 })

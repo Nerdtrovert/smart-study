@@ -9,6 +9,14 @@ function clean(value = '') {
   return `${value}`.replace(/\s+/g, ' ').trim()
 }
 
+function resolveActor(details = {}) {
+  const actor = clean(details.actor || 'system')
+  const actorName = clean(details.actorName || details.name || '')
+  if (!actorName) return actor
+  if (actorName.toLowerCase() === actor.toLowerCase()) return actorName
+  return `${actorName} (${actor})`
+}
+
 function currentMonthKey() {
   const now = new Date()
   const month = `${now.getUTCMonth() + 1}`.padStart(2, '0')
@@ -59,7 +67,7 @@ function rotateLogMonthly() {
 function appendLog(event, details = {}) {
   rotateLogMonthly()
 
-  const actor = clean(details.actor || 'system')
+  const actor = resolveActor(details)
   const status = clean(details.status || 'info')
   const message = clean(details.message || event)
   const line = `${new Date().toISOString()} | ${actor} | ${event} | ${status} | ${message}\n`

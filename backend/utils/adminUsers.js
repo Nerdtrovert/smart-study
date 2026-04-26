@@ -7,8 +7,10 @@ async function findAdmin(username = '', password = '') {
     cleanUsername === process.env.ADMIN_USER &&
     password === process.env.ADMIN_PASS
   ) {
+    const mainAdminName = `${process.env.ADMIN_NAME || cleanUsername}`.trim() || 'Main Admin'
     return {
       username: cleanUsername,
+      name: mainAdminName,
       role: 'main_admin',
       isMain: true,
       canDelete: true
@@ -26,6 +28,7 @@ async function findAdmin(username = '', password = '') {
 
   return {
     username: admin.username,
+    name: admin.name || admin.username,
     role: 'admin',
     isMain: false,
     canDelete: false

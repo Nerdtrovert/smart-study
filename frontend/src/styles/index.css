@@ -26,6 +26,18 @@
 
   --font-serif:  'Lora', Georgia, serif;
   --font-sans:   'DM Sans', system-ui, sans-serif;
+  --fs-base:     1rem;
+  --fs-caption:  0.9375rem;
+  --fs-sm:       1rem;
+  --fs-md:       1.125rem;
+  --fs-lg:       1.25rem;
+  --fs-xl:       1.375rem;
+  --fs-2xl:      1.5rem;
+  --fs-3xl:      1.75rem;
+  --fs-4xl:      2rem;
+  --fs-5xl:      2.5rem;
+  --fs-6xl:      3rem;
+  --fs-hero:     3.75rem;
 
   --shadow:      0 8px 24px rgba(0,0,0,0.18);
 }
@@ -33,11 +45,28 @@
 /* ── Reset ─────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+html {
+  font-size: 85%;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (max-width: 900px) {
+  html {
+    font-size: 92.5%;
+  }
+}
+
+@media (max-width: 640px) {
+  html {
+    font-size: 105%;
+  }
+}
 
 body {
   font-family: var(--font-sans);
-  font-size: 23.46px;
+  font-size: var(--fs-base);
   position: relative;
   background: var(--bg);
   color: var(--text);
