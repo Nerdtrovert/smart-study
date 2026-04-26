@@ -1,1 +1,1 @@
-export const BRANCHES = ['CSE', 'ECE', 'AI&DS', 'ISE']
+export const BRANCHES = ['CSE/ISE', 'ECE', 'AI&DS', 'Common']

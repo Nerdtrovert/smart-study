@@ -6,6 +6,7 @@ import { getSchemeIdForSemester } from '../data/schemes'
 import PDFViewer from '../components/shared/PDFViewer'
 import { getDriveEmbedUrl } from '../utils/driveUrl'
 import { formatCourseLabel } from '../utils/courseCatalog'
+import { normalizeBranch } from '../utils/branch'
 
 function SyllabusCard({ note }) {
   const [open, setOpen] = useState(false)
@@ -59,7 +60,7 @@ function parseSubjectId(subjectId = '') {
   const subjectCode = subjectCodeParts.join('-').trim()
 
   if (!semester || !branch || !subjectCode) return null
-  return { semester, branch, subjectCode }
+  return { semester, branch: normalizeBranch(branch), subjectCode }
 }
 
 export default function SubjectPage() {
@@ -98,7 +99,7 @@ export default function SubjectPage() {
   }
 
   const subjectNotes = notes.filter(
-    n => n.semester === parsed.semester && n.branch === parsed.branch && (n.subject_code || n.subject) === parsed.subjectCode
+    n => n.semester === parsed.semester && normalizeBranch(n.branch) === parsed.branch && (n.subject_code || n.subject) === parsed.subjectCode
   )
   const subjectName = subjectNotes[0]?.subject || parsed.subjectCode
   const syllabus = subjectNotes.find(n => n.type === 'syllabus')

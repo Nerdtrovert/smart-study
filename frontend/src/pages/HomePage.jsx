@@ -6,6 +6,7 @@ import RequestBox from '../components/shared/RequestBox'
 import { useNotes } from '../hooks/useNotes'
 import { usePYQs } from '../hooks/usePYQs'
 import { formatCourseLabel } from '../utils/courseCatalog'
+import { normalizeBranch } from '../utils/branch'
 
 export default function HomePage() {
   const location = useLocation()
@@ -14,16 +15,19 @@ export default function HomePage() {
 
   const latestUploads = useMemo(() => {
     const noteUploads = notes
-      .map(note => ({
-        id: `note-${note.id}`,
-        title: formatCourseLabel(note.subject_code || note.subject, note.subject),
-        subtitle: `${note.branch || 'Branch'} · Sem ${note.semester} · ${note.type === 'module' ? `Module ${note.module_number}` : 'Syllabus'}`,
-        uploadedAt: Date.parse(note.uploaded_at || '') || 0,
-        dateLabel: note.uploaded_at || 'No date',
-        path: note.semester && note.branch && (note.subject_code || note.subject)
-          ? `/notes/${encodeURIComponent(`${note.semester}-${note.branch}-${note.subject_code || note.subject}`)}`
-          : '/notes',
-      }))
+      .map(note => {
+        const branch = normalizeBranch(note.branch)
+        return {
+          id: `note-${note.id}`,
+          title: formatCourseLabel(note.subject_code || note.subject, note.subject),
+          subtitle: `${branch || 'Branch'} · Sem ${note.semester} · ${note.type === 'module' ? `Module ${note.module_number}` : 'Syllabus'}`,
+          uploadedAt: Date.parse(note.uploaded_at || '') || 0,
+          dateLabel: note.uploaded_at || 'No date',
+          path: note.semester && branch && (note.subject_code || note.subject)
+            ? `/notes/${encodeURIComponent(`${note.semester}-${branch}-${note.subject_code || note.subject}`)}`
+            : '/notes',
+        }
+      })
 
     const pyqUploads = pyqs
       .map(paper => ({

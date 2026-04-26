@@ -1,8 +1,10 @@
 import { filterOptions } from '../../utils/filterNotes'
+import { normalizeBranch } from '../../utils/branch'
 
 // mode: 'notes' (default) | 'pyqs'
 export default function FilterBar({ filters, onChange, notes, mode = 'notes' }) {
   const { semesters, branches, subjects } = filterOptions(notes, filters, mode)
+  const selectedBranch = normalizeBranch(filters.branch)
 
   return (
     <div>
@@ -12,7 +14,7 @@ export default function FilterBar({ filters, onChange, notes, mode = 'notes' }) 
       </select>
 
       {mode === 'notes' && (
-        <select value={filters.branch} onChange={e => onChange({ ...filters, branch: e.target.value, subject: '' })}>
+        <select value={selectedBranch} onChange={e => onChange({ ...filters, branch: e.target.value, subject: '' })}>
           <option value="">All branches</option>
           {branches.map(b => <option key={b} value={b}>{b}</option>)}
         </select>

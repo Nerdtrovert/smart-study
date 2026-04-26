@@ -4,6 +4,7 @@ const { authMiddleware, mainAdminOnly } = require('../middleware/auth')
 const { readJSON } = require('../utils/jsonStore')
 const { protectRecordPdf } = require('../utils/pdfLinks')
 const { getLogFilePath, appendLog, resetLogs, getLogSettings } = require('../utils/adminLog')
+const { normalizeBranch } = require('../utils/branch')
 
 const router = express.Router()
 
@@ -27,7 +28,7 @@ router.get('/files', authMiddleware, async (req, res, next) => {
     ])
 
     const notes = notesData.notes.map(record => ({
-      ...protectRecordPdf(record),
+      ...protectRecordPdf({ ...record, branch: normalizeBranch(record.branch) }),
       collection: 'notes',
       label: `${courseLabel(record.subject_code, record.subject)} ${record.type === 'module' ? `Module ${record.module_number}` : 'Syllabus'}`
     }))

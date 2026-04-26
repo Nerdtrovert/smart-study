@@ -7,6 +7,7 @@ import { BRANCHES } from '../data/branches'
 import { getOrdinal, getSchemes } from '../data/schemes'
 import { useStickyFilters } from '../hooks/useStickyFilters'
 import { formatCourseLabel } from '../utils/courseCatalog'
+import { normalizeBranch } from '../utils/branch'
 
 export default function NotesPage() {
   const { notes, loading, error } = useNotes()
@@ -25,7 +26,7 @@ export default function NotesPage() {
 
   const branchGroups = useMemo(() => {
     const availableBranches = BRANCHES.filter(branch => (
-      semesterNotes.some(note => note.branch === branch)
+      semesterNotes.some(note => normalizeBranch(note.branch) === branch)
     ))
 
     const sortSubjects = (a, b) => {
@@ -36,7 +37,7 @@ export default function NotesPage() {
 
     return availableBranches
       .map(branch => {
-        const branchNotes = semesterNotes.filter(note => note.branch === branch)
+        const branchNotes = semesterNotes.filter(note => normalizeBranch(note.branch) === branch)
         const byCode = new Map()
 
         branchNotes.forEach(note => {
@@ -127,7 +128,7 @@ export default function NotesPage() {
             </div>
             <div className="subject-grid">
               {subjectList.map(subject => {
-                const key = `${subject.sample.semester}-${subject.sample.branch}-${subject.courseCode}`
+                const key = `${subject.sample.semester}-${branch}-${subject.courseCode}`
                 return (
                   <Link
                     key={key}

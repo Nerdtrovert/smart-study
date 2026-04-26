@@ -6,10 +6,10 @@ const os = require('os')
 const { authMiddleware, mainAdminOnly } = require('../middleware/auth')
 const { compressPDF } = require('../utils/compress')
 const { uploadToDrive, deleteFromDrive } = require('../utils/driveUpload')
+const { normalizeBranch, isValidBranch, getBranchOptions } = require('../utils/branch')
 const { appendRecord, readJSON, removeRecord } = require('../utils/jsonStore')
 const { appendLog } = require('../utils/adminLog')
 const router = express.Router()
-const BRANCHES = ['CSE', 'ECE', 'AI&DS', 'ISE']
 
 const uploadDir = path.join(os.tmpdir(), 'smart-study-uploads')
 fs.mkdirSync(uploadDir, { recursive: true })
@@ -17,10 +17,6 @@ fs.mkdirSync(uploadDir, { recursive: true })
 const upload = multer({ dest: uploadDir })
 
 function normalizeCourseCode(value = '') {
-  return `${value}`.trim().toUpperCase()
-}
-
-function normalizeBranch(value = '') {
   return `${value}`.trim().toUpperCase()
 }
 
@@ -58,8 +54,8 @@ router.post('/note', authMiddleware, upload.single('file'), async (req, res, nex
       appendLog('note_upload', { actor: req.admin.username, actorName: req.admin.name, status: 'failed', message: validationError })
       return res.status(400).json({ error: validationError })
     }
-    if (!BRANCHES.includes(normalizedBranch)) {
-      const branchError = `Branch must be one of: ${BRANCHES.join(', ')}`
+    if (!isValidBranch(normalizedBranch)) {
+      const branchError = `Branch must be one of: ${getBranchOptions().join(', ')}`
       appendLog('note_upload', { actor: req.admin.username, actorName: req.admin.name, status: 'failed', message: branchError })
       return res.status(400).json({ error: branchError })
     }
