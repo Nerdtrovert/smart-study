@@ -60,8 +60,7 @@ router.post('/note', authMiddleware, upload.single('file'), async (req, res, nex
       return res.status(400).json({ error: branchError })
     }
 
-    compressed = await compressPDF(req.file.path)
-    const driveFile = await uploadToDrive(compressed, req.file.originalname)
+    const driveFile = await uploadToDrive(req.file.path, req.file.originalname)
 
     const record = {
       id: `note_${Date.now()}`,
@@ -113,8 +112,7 @@ router.post('/pyq', authMiddleware, upload.single('file'), async (req, res, next
       return res.status(400).json({ error: validationError })
     }
 
-    compressed = await compressPDF(req.file.path)
-    const driveFile = await uploadToDrive(compressed, req.file.originalname)
+    const driveFile = await uploadToDrive(req.file.path, req.file.originalname)
 
     const record = {
       id: `pyq_${Date.now()}`,

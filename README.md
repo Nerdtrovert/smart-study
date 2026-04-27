@@ -21,5 +21,6 @@ Frontend runs on http://localhost:5175
 
 ## Deployment notes
 - Render: add `apt-get install -y ghostscript` as build command for PDF compression
+- Windows local setup: install Ghostscript and set `GHOSTSCRIPT_PATH` in `.env` if `gswin64c.exe` is not in PATH
 - Set all .env vars in Render/Netlify dashboard
 - DRIVE_FOLDER_ID: create a folder in Drive, share it with your service account email

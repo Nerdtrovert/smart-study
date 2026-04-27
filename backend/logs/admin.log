@@ -1,0 +1,15 @@
+2026-04-27T13:44:42.236Z | dr_doom | login | success | main_admin logged in
+2026-04-27T13:45:18.452Z | dr_doom | note_upload | failed | GOOGLE_SERVICE_ACCOUNT_JSON must be valid JSON
+2026-04-27T13:45:18.456Z | dr_doom | error | failed | POST /api/upload/note: GOOGLE_SERVICE_ACCOUNT_JSON must be valid JSON
+2026-04-27T13:45:49.786Z | dr_doom | note_upload | failed | GOOGLE_SERVICE_ACCOUNT_JSON must be valid JSON
+2026-04-27T13:45:49.789Z | dr_doom | error | failed | POST /api/upload/note: GOOGLE_SERVICE_ACCOUNT_JSON must be valid JSON
+2026-04-27T13:51:41.918Z | dr_doom | note_upload | failed | GOOGLE_SERVICE_ACCOUNT_JSON must be valid JSON
+2026-04-27T13:51:41.920Z | dr_doom | error | failed | POST /api/upload/note: GOOGLE_SERVICE_ACCOUNT_JSON must be valid JSON
+2026-04-27T13:54:34.606Z | dr_doom | note_upload | failed | GOOGLE_SERVICE_ACCOUNT_JSON must be valid JSON
+2026-04-27T13:54:34.609Z | dr_doom | error | failed | POST /api/upload/note: GOOGLE_SERVICE_ACCOUNT_JSON must be valid JSON
+2026-04-27T14:12:34.057Z | dr_doom | login | success | main_admin logged in
+2026-04-27T14:13:05.070Z | dr_doom | note_upload | failed | Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.
+2026-04-27T14:13:05.090Z | dr_doom | error | failed | POST /api/upload/note: Service Accounts do not have storage quota. Leverage shared drives (https://developers.google.com/workspace/drive/api/guides/about-shareddrives), or use OAuth delegation (http://support.google.com/a/answer/7281227) instead.
+2026-04-27T14:35:33.093Z | dr_doom | error | failed | POST /api/upload/note: Google Drive upload is not configured. Missing OAuth or Folder ID variables.
+2026-04-27T14:35:33.086Z | dr_doom | note_upload | failed | Google Drive upload is not configured. Missing OAuth or Folder ID variables.
+2026-04-27T14:37:11.164Z | dr_doom | note_upload | success | BCS401 sem 4 module 1

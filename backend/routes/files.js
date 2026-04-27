@@ -35,7 +35,7 @@ router.get('/:fileId', async (req, res, next) => {
 
     const drive = getDriveClient()
     const pdf = await drive.files.get(
-      { fileId, alt: 'media' },
+      { fileId, alt: 'media', supportsAllDrives: true },
       { responseType: 'stream' }
     )
 

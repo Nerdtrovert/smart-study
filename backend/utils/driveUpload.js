@@ -3,22 +3,23 @@ const fs = require('fs')
 const path = require('path')
 
 function getDriveClient() {
-  if (!process.env.GOOGLE_SERVICE_ACCOUNT_JSON || !process.env.DRIVE_FOLDER_ID) {
-    throw new Error('Google Drive upload is not configured')
+  const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN, DRIVE_FOLDER_ID } = process.env
+
+  if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !GOOGLE_REFRESH_TOKEN || !DRIVE_FOLDER_ID) {
+    throw new Error('Google Drive upload is not configured. Missing OAuth or Folder ID variables.')
   }
 
-  let credentials
-  try {
-    credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON)
-  } catch {
-    throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON must be valid JSON')
-  }
+  const oauth2Client = new google.auth.OAuth2(
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    'https://developers.google.com/oauthplayground' // Common redirect URI used for generating tokens
+  )
 
-  const auth = new google.auth.GoogleAuth({
-    credentials,
-    scopes: ['https://www.googleapis.com/auth/drive.file']
+  oauth2Client.setCredentials({
+    refresh_token: GOOGLE_REFRESH_TOKEN
   })
-  return google.drive({ version: 'v3', auth })
+
+  return google.drive({ version: 'v3', auth: oauth2Client })
 }
 
 async function uploadToDrive(filePath, fileName) {
@@ -33,7 +34,8 @@ async function uploadToDrive(filePath, fileName) {
       mimeType: 'application/pdf',
       body: fs.createReadStream(filePath)
     },
-    fields: 'id, webViewLink'
+    fields: 'id, webViewLink',
+    supportsAllDrives: true
   })
 
   return {
@@ -44,7 +46,7 @@ async function uploadToDrive(filePath, fileName) {
 
 async function deleteFromDrive(fileId) {
   const drive = getDriveClient()
-  await drive.files.delete({ fileId })
+  await drive.files.delete({ fileId, supportsAllDrives: true })
 }
 
 module.exports = { getDriveClient, uploadToDrive, deleteFromDrive }

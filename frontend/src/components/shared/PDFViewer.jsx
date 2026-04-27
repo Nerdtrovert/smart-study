@@ -1,22 +1,6 @@
 import '../../styles/PDFViewer.css'
-import { useState, useRef, useEffect } from 'react'
-import { Document, Page, pdfjs } from 'react-pdf'
-import 'react-pdf/dist/Page/AnnotationLayer.css'
-import 'react-pdf/dist/Page/TextLayer.css'
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`
 
 export default function PDFViewer({ url }) {
-  const [numPages, setNumPages] = useState(null)
-  const [width, setWidth] = useState(null)
-  const containerRef = useRef(null)
-
-  useEffect(() => {
-    if (containerRef.current) {
-      setWidth(containerRef.current.getBoundingClientRect().width)
-    }
-  }, [])
-
   const downloadUrl = url ? (url.includes('?') ? `${url}&download=1` : `${url}?download=1`) : ''
 
   const printPDF = () => {
@@ -39,7 +23,7 @@ export default function PDFViewer({ url }) {
   }
 
   return (
-    <div className="pdf-viewer" ref={containerRef}>
+    <div className="pdf-viewer">
       <div className="pdf-viewer__toolbar">
         <span className="pdf-viewer__title">PDF reader</span>
         <div className="pdf-viewer__actions">
@@ -51,19 +35,15 @@ export default function PDFViewer({ url }) {
           </a>
         </div>
       </div>
-      <Document
-        file={url}
-        onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-        loading={<p className="pdf-viewer__loading">Loading PDF...</p>}
-        error={<p className="pdf-viewer__error">Failed to load PDF. Try refreshing.</p>}
-      >
-        <div className="pdf-viewer__pages">
-          {Array.from({ length: numPages }, (_, i) => (
-            <Page key={i + 1} pageNumber={i + 1} width={width || undefined}
-              renderTextLayer renderAnnotationLayer={false} />
-          ))}
-        </div>
-      </Document>
+      <div className="pdf-viewer__embed-container" style={{ height: '70vh', width: '100%' }}>
+        <iframe
+          src={url}
+          title="PDF Viewer"
+          width="100%"
+          height="100%"
+          style={{ border: 'none' }}
+        />
+      </div>
     </div>
   )
 }
