@@ -19,7 +19,7 @@ export default function App() {
         <Route path="/pyqs" element={<PYQsPage />} />
         <Route path="/pyqs/scheme/:schemeId/semester/:semester" element={<PYQsPage />} />
         <Route path="/pyqs/:subjectId" element={<PYQSubjectPage />} />
-        <Route path="/secret-admin" element={<AdminPanel />} />
+        <Route path="/admin" element={<AdminPanel />} />
       </Routes>
     </BrowserRouter>
   )

@@ -10,6 +10,7 @@ export default function Navbar() {
         <NavLink to="/notes" className={({ isActive }) => isActive ? 'active' : ''}>Notes</NavLink>
         <NavLink to="/pyqs" className={({ isActive }) => isActive ? 'active' : ''}>PYQs</NavLink>
         <Link to="/#requests">Requests</Link>
+        <NavLink to="/admin" className={({ isActive }) => isActive ? 'active' : ''}>Admin</NavLink>
       </div>
     </nav>
   )
