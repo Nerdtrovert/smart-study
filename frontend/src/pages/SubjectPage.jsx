@@ -33,20 +33,38 @@ function SyllabusCard({ note }) {
   )
 }
 
-function ModuleCard({ module }) {
+function ModuleCard({ moduleNumber, notes }) {
   const [open, setOpen] = useState(false)
+  const [activeNoteIndex, setActiveNoteIndex] = useState(0)
+
   return (
     <div className={`module-card ${open ? 'module-card--open' : ''}`}>
       <div className="module-card__header" onClick={() => setOpen(!open)}>
         <div className="module-card__left">
-          <span className="module-card__num">{module.module_number}</span>
-          <span className="module-card__title">{module.title}</span>
+          <span className="module-card__num">{moduleNumber}</span>
+          <span className="module-card__title">
+            {notes.length === 1 ? notes[0].title : `Module ${moduleNumber} (${notes.length} notes)`}
+          </span>
         </div>
         <span className="module-card__chevron">▼</span>
       </div>
       {open && (
         <div className="module-card__body">
-          <PDFViewer url={getDriveEmbedUrl(module.drive_url)} />
+          {notes.length > 1 && (
+            <div className="module-card__tabs" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '12px' }}>
+              {notes.map((note, index) => (
+                <button
+                  key={note.id}
+                  type="button"
+                  className={`btn ${index === activeNoteIndex ? 'btn--blue' : 'btn--ghost'}`}
+                  onClick={() => setActiveNoteIndex(index)}
+                >
+                  {note.title}
+                </button>
+              ))}
+            </div>
+          )}
+          <PDFViewer url={getDriveEmbedUrl(notes[activeNoteIndex].drive_url)} />
         </div>
       )}
     </div>
@@ -103,9 +121,24 @@ export default function SubjectPage() {
   )
   const subjectName = subjectNotes[0]?.subject || parsed.subjectCode
   const syllabus = subjectNotes.find(n => n.type === 'syllabus')
-  const modules  = subjectNotes
+  
+  const moduleNotes = subjectNotes
     .filter(n => n.type === 'module')
     .sort((a, b) => a.module_number - b.module_number)
+    
+  const groupedModules = {}
+  moduleNotes.forEach(m => {
+    if (!groupedModules[m.module_number]) groupedModules[m.module_number] = []
+    groupedModules[m.module_number].push(m)
+  })
+
+  const moduleGroups = Object.keys(groupedModules)
+    .map(Number)
+    .sort((a, b) => a - b)
+    .map(num => ({
+      moduleNumber: num,
+      notes: groupedModules[num]
+    }))
   const schemeId = getSchemeIdForSemester(parsed.semester)
   const backPath = `/notes/scheme/${schemeId}/semester/${parsed.semester}`
   const pyqPath = `/pyqs/scheme/${schemeId}/semester/${parsed.semester}`
@@ -135,9 +168,9 @@ export default function SubjectPage() {
       {syllabus && <SyllabusCard note={syllabus} />}
 
       <div className="module-list">
-        {modules.length === 0
+        {moduleGroups.length === 0
           ? <p className="module-list__empty">No modules uploaded yet.</p>
-          : modules.map(m => <ModuleCard key={m.id} module={m} />)
+          : moduleGroups.map(g => <ModuleCard key={g.moduleNumber} moduleNumber={g.moduleNumber} notes={g.notes} />)
         }
       </div>
 

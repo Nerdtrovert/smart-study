@@ -83,7 +83,7 @@ export default function PDFViewer({ url }) {
       {actionError && <p className="pdf-viewer__error">{actionError}</p>}
       <div className="pdf-viewer__embed-container" style={{ height: '70vh', width: '100%' }}>
         <iframe
-          src={url}
+          src={`${url}#view=FitH&navpanes=0&toolbar=0`}
           title="PDF Viewer"
           width="100%"
           height="100%"

@@ -4,7 +4,6 @@ const path = require('path')
 const fs = require('fs')
 const os = require('os')
 const { authMiddleware, mainAdminOnly } = require('../middleware/auth')
-const { compressPDF } = require('../utils/compress')
 const { uploadToDrive, deleteFromDrive } = require('../utils/driveUpload')
 const { normalizeBranch, isValidBranch, getBranchOptions } = require('../utils/branch')
 const { appendRecord, readJSON, removeRecord } = require('../utils/jsonStore')
@@ -37,7 +36,6 @@ function cleanupFiles(...files) {
 
 // POST /api/upload/note
 router.post('/note', authMiddleware, upload.single('file'), async (req, res, next) => {
-  let compressed
   try {
     const { semester, branch, subject_code, note_type, module_number } = req.body
     const normalizedCode = normalizeCourseCode(subject_code)
@@ -83,19 +81,18 @@ router.post('/note', authMiddleware, upload.single('file'), async (req, res, nex
       message: `${normalizedCode} sem ${semester} ${note_type}${module_number ? ` ${module_number}` : ''}`
     })
 
-    cleanupFiles(req.file.path, compressed)
+    cleanupFiles(req.file.path)
 
     res.json({ ok: true, record })
   } catch (err) {
     appendLog('note_upload', { actor: req.admin?.username, actorName: req.admin?.name, status: 'failed', message: err.message })
-    cleanupFiles(req.file?.path, compressed)
+    cleanupFiles(req.file?.path)
     next(err)
   }
 })
 
 // POST /api/upload/pyq
 router.post('/pyq', authMiddleware, upload.single('file'), async (req, res, next) => {
-  let compressed
   try {
     const { semester, subject_code, exam_type, year, paper_number } = req.body
     const normalizedCode = normalizeCourseCode(subject_code)
@@ -134,12 +131,12 @@ router.post('/pyq', authMiddleware, upload.single('file'), async (req, res, next
       message: `${normalizedCode} sem ${semester} ${exam_type}${year ? ` ${year}` : ''}`
     })
 
-    cleanupFiles(req.file.path, compressed)
+    cleanupFiles(req.file.path)
 
     res.json({ ok: true, record })
   } catch (err) {
     appendLog('pyq_upload', { actor: req.admin?.username, actorName: req.admin?.name, status: 'failed', message: err.message })
-    cleanupFiles(req.file?.path, compressed)
+    cleanupFiles(req.file?.path)
     next(err)
   }
 })

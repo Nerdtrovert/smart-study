@@ -6,6 +6,8 @@ export default function UploadedFilesPanel({ admin }) {
   const [files, setFiles] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [selectedIds, setSelectedIds] = useState(new Set())
+  const [deleting, setDeleting] = useState(false)
 
   const token = localStorage.getItem('admin_token')
 
@@ -36,10 +38,70 @@ export default function UploadedFilesPanel({ admin }) {
         headers: { Authorization: `Bearer ${token}` }
       })
       setFiles(current => current.filter(item => item.id !== file.id))
+      setSelectedIds(current => {
+        const next = new Set(current)
+        next.delete(file.id)
+        return next
+      })
       window.dispatchEvent(new Event('smart-study:data-updated'))
     } catch (err) {
       setError(err.response?.data?.error || 'Delete failed')
     }
+  }
+
+  const deleteSelected = async () => {
+    if (!admin?.isMain || selectedIds.size === 0) return
+    if (!window.confirm(`Are you sure you want to delete ${selectedIds.size} file(s)?`)) return
+
+    setDeleting(true)
+    setError('')
+    
+    let successCount = 0
+    const failedIds = []
+
+    for (const id of selectedIds) {
+      const file = files.find(f => f.id === id)
+      if (!file) continue
+      try {
+        const kind = file.collection === 'notes' ? 'note' : 'pyq'
+        await axios.delete(`/api/upload/${kind}/${file.id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        successCount++
+      } catch (err) {
+        failedIds.push(file.id)
+      }
+    }
+
+    if (successCount > 0) {
+      setFiles(current => current.filter(item => !selectedIds.has(item.id) || failedIds.includes(item.id)))
+      window.dispatchEvent(new Event('smart-study:data-updated'))
+    }
+    
+    if (failedIds.length > 0) {
+      setError(`Failed to delete ${failedIds.length} file(s)`)
+    } else {
+      setSelectedIds(new Set())
+    }
+    
+    setDeleting(false)
+  }
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === files.length) {
+      setSelectedIds(new Set())
+    } else {
+      setSelectedIds(new Set(files.map(f => f.id)))
+    }
+  }
+
+  const toggleSelect = (id) => {
+    setSelectedIds(current => {
+      const next = new Set(current)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
   }
 
   if (loading) return <p className="admin-empty">Loading files...</p>
@@ -59,10 +121,41 @@ export default function UploadedFilesPanel({ admin }) {
       {files.length === 0 ? (
         <p className="admin-empty">No uploaded files yet.</p>
       ) : (
-        <div className="admin-file-list">
+        <>
+          {admin?.isMain && (
+            <div style={{ display: 'flex', gap: '16px', marginBottom: '16px', alignItems: 'center' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <input 
+                  type="checkbox" 
+                  checked={selectedIds.size === files.length && files.length > 0}
+                  onChange={toggleSelectAll}
+                />
+                Select All
+              </label>
+              {selectedIds.size > 0 && (
+                <button 
+                  type="button" 
+                  className="btn btn--danger" 
+                  onClick={deleteSelected}
+                  disabled={deleting}
+                >
+                  {deleting ? 'Deleting...' : `Delete Selected (${selectedIds.size})`}
+                </button>
+              )}
+            </div>
+          )}
+          <div className="admin-file-list">
           {files.map(file => (
-            <div key={`${file.collection}-${file.id}`} className="admin-file-card">
-              <div>
+            <div key={`${file.collection}-${file.id}`} className="admin-file-card" style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+              {admin?.isMain && (
+                <input 
+                  type="checkbox" 
+                  checked={selectedIds.has(file.id)}
+                  onChange={() => toggleSelect(file.id)}
+                  style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                />
+              )}
+              <div style={{ flex: 1 }}>
                 <p className="admin-file-card__title">{file.label}</p>
                 <p className="admin-file-card__meta">
                   {file.collection.toUpperCase()} · Sem {file.semester} · {file.uploaded_at || 'No date'}
@@ -76,6 +169,7 @@ export default function UploadedFilesPanel({ admin }) {
             </div>
           ))}
         </div>
+        </>
       )}
     </section>
   )
