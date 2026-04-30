@@ -12,11 +12,23 @@
 }
 
 .navbar__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   font-family: var(--font-serif);
   font-size: var(--fs-2xl);
   font-weight: 500;
   color: var(--green);
-  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.navbar__logo-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  flex: 0 0 auto;
+  display: block;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
 }
 
 .navbar__links {

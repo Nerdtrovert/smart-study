@@ -1,17 +1,3 @@
 {
-  "notes": [
-    {
-      "id": "note_1777300631155",
-      "semester": 4,
-      "branch": "CSE/ISE",
-      "subject_code": "BCS401",
-      "subject": "BCS401",
-      "type": "module",
-      "module_number": 1,
-      "title": "Module 1",
-      "drive_file_id": "1hvMqZbTVP7paac9PXQ9SS5KlJh3vkQ1q",
-      "drive_url": "/api/files/1hvMqZbTVP7paac9PXQ9SS5KlJh3vkQ1q",
-      "uploaded_at": "2026-04-27"
-    }
-  ]
+  "notes": []
 }

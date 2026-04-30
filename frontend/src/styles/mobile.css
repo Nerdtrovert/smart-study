@@ -61,6 +61,12 @@
 
   .navbar__logo {
     font-size: var(--fs-xl);
+    gap: 10px;
+  }
+
+  .navbar__logo-mark {
+    width: 32px;
+    height: 32px;
   }
 
   .navbar__links {
@@ -348,6 +354,12 @@
 
   .navbar__logo {
     font-size: var(--fs-lg);
+    gap: 8px;
+  }
+
+  .navbar__logo-mark {
+    width: 28px;
+    height: 28px;
   }
 
   .navbar__links {
