@@ -51,7 +51,34 @@
     font-size: var(--fs-sm);
   }
 
-  /* ── Page containers ─────────────────────────────────── */
+  .navbar {
+    height: auto;
+    min-height: 56px;
+    padding: 10px 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .navbar__logo {
+    font-size: var(--fs-xl);
+    gap: 10px;
+  }
+
+  .navbar__logo-mark {
+    width: 32px;
+    height: 32px;
+  }
+
+  .navbar__links {
+    margin-left: auto;
+    gap: 14px;
+  }
+
+  .navbar__links a,
+  .navbar__links span {
+    font-size: var(--fs-md);
+  }
+
   .home,
   .notes-page,
   .subject-page,
@@ -336,7 +363,31 @@
   }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 390px) and (max-height: 700px) {
+  .navbar {
+    padding-left: max(10px, env(safe-area-inset-left));
+    padding-right: max(10px, env(safe-area-inset-right));
+  }
+
+  .navbar__logo {
+    font-size: var(--fs-lg);
+    gap: 8px;
+  }
+
+  .navbar__logo-mark {
+    width: 28px;
+    height: 28px;
+  }
+
+  .navbar__links {
+    gap: 10px;
+  }
+
+  .navbar__links a,
+  .navbar__links span {
+    font-size: var(--fs-sm);
+  }
+
   .hero {
     padding-top: 32px;
     padding-bottom: 24px;

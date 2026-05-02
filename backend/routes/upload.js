@@ -8,6 +8,7 @@ const { uploadToDrive, deleteFromDrive } = require('../utils/driveUpload')
 const { normalizeBranch, isValidBranch, getBranchOptions } = require('../utils/branch')
 const { appendRecord, readJSON, removeRecord, updateRecord } = require('../utils/jsonStore')
 const { appendLog } = require('../utils/adminLog')
+const { extractDriveFileId } = require('../utils/pdfLinks')
 const router = express.Router()
 
 const uploadDir = path.join(os.tmpdir(), 'smart-study-uploads')
@@ -32,6 +33,22 @@ function cleanupFiles(...files) {
   files.filter(Boolean).forEach(file => {
     if (fs.existsSync(file)) fs.unlinkSync(file)
   })
+}
+
+function getStoredDriveFileId(record) {
+  return record?.drive_file_id || extractDriveFileId(record?.drive_url)
+}
+
+async function deleteStoredDriveFile(record) {
+  const fileId = getStoredDriveFileId(record)
+  if (!fileId) return
+
+  try {
+    await deleteFromDrive(fileId)
+  } catch (err) {
+    if (err?.code === 404) return
+    throw err
+  }
 }
 
 // POST /api/upload/note
@@ -147,7 +164,7 @@ router.delete('/note/:id', authMiddleware, async (req, res, next) => {
     const record = data.notes.find(note => note.id === req.params.id)
     if (!record) return res.status(404).json({ error: 'Note not found' })
 
-    if (record.drive_file_id) await deleteFromDrive(record.drive_file_id)
+    await deleteStoredDriveFile(record)
     await removeRecord('notes', req.params.id)
 
     appendLog('note_delete', {
@@ -169,7 +186,7 @@ router.delete('/pyq/:id', authMiddleware, async (req, res, next) => {
     const record = data.pyqs.find(paper => paper.id === req.params.id)
     if (!record) return res.status(404).json({ error: 'PYQ not found' })
 
-    if (record.drive_file_id) await deleteFromDrive(record.drive_file_id)
+    await deleteStoredDriveFile(record)
     await removeRecord('pyqs', req.params.id)
 
     appendLog('pyq_delete', {
