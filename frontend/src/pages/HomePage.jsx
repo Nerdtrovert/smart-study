@@ -60,6 +60,7 @@ export default function HomePage() {
     <main className="home">
       {/* Hero */}
       <div className="hero">
+        <img src="/favicon.png" alt="Smart Study logo" className="hero__logo" />
         <span className="hero__eyebrow">Dr. HNNCE</span>
         <h1 className="hero__title">Smart Study</h1>
         <p className="hero__tagline">Study faster. Learn smarter.</p>

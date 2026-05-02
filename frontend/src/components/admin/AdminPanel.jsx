@@ -43,6 +43,7 @@ export default function AdminPanel() {
 
   if (!authed) return (
     <div className="admin-login">
+      <img src="/favicon.png" alt="Smart Study logo" className="admin-login__logo" />
       <h1 className="admin-login__title">Admin</h1>
       <p className="admin-login__sub">Smart Study · Dr. HNNCE</p>
       <form onSubmit={login}>
