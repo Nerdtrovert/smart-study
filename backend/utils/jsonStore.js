@@ -33,6 +33,7 @@ async function writeJSON(name, data) {
   try {
     const file = path.join(DATA_DIR, `${name}.json`)
     await fs.writeFile(file, JSON.stringify(data, null, 2), 'utf-8')
+    return data
   } catch (err) {
     throw new Error(`[jsonStore:${name}] ${err.message}`)
   }
