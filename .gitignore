@@ -3,3 +3,5 @@ node_modules/
 /tmp/uploads/
 dist/
 *.pdf
+notes.json
+admin.log

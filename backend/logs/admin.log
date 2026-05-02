@@ -10,3 +10,17 @@
 2026-05-01T19:26:36.240Z | sudhnava (daredevil) | login | success | admin logged in
 2026-05-01T19:26:36.346Z | sudhnava (daredevil) | login | success | admin logged in
 2026-05-01T19:26:36.498Z | sudhnava (daredevil) | login | success | admin logged in
+2026-05-02T09:35:08.339Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:14.225Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:15.556Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:15.874Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:16.046Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:16.156Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:16.415Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:16.803Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:17.037Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:17.181Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:17.379Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:26.325Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:37.325Z | sudhnava (daredevil) | login | success | admin logged in
+2026-05-02T09:35:54.975Z | sudhnava (daredevil) | note_delete | success | BCS403 module 2
