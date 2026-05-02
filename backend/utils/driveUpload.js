@@ -38,6 +38,22 @@ async function uploadToDrive(filePath, fileName) {
     supportsAllDrives: true
   })
 
+  // Make the file readable by anyone with the link so our proxy can stream it
+  // and so students don't need their own Google account
+  try {
+    await drive.permissions.create({
+      fileId: data.id,
+      supportsAllDrives: true,
+      requestBody: {
+        role: 'reader',
+        type: 'anyone'
+      }
+    })
+  } catch (permErr) {
+    // Non-fatal: log and continue — the proxy will still work via the service account
+    console.warn('[driveUpload] Could not set public permission on file:', data.id, permErr.message)
+  }
+
   return {
     fileId: data.id,
     webViewLink: data.webViewLink

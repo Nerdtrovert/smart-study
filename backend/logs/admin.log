@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2026-04-27T13:44:42.236Z | dr_doom | login | success | main_admin logged in
 2026-04-27T13:45:18.452Z | dr_doom | note_upload | failed | GOOGLE_SERVICE_ACCOUNT_JSON must be valid JSON
 2026-04-27T13:45:18.456Z | dr_doom | error | failed | POST /api/upload/note: GOOGLE_SERVICE_ACCOUNT_JSON must be valid JSON
@@ -15,3 +16,31 @@
 2026-04-27T14:37:11.164Z | dr_doom | note_upload | success | BCS401 sem 4 module 1
 2026-04-30T15:11:21.919Z | dr_doom | login | success | main_admin logged in
 2026-04-30T15:11:27.711Z | dr_doom | note_delete | success | BCS401 module 1
+=======
+2026-05-01T13:57:54.415Z | sudhnava (daredevil) | login | success | admin logged in
+2026-05-01T13:58:54.234Z | sudhnava (daredevil) | note_upload | success | BCS403 sem 4 module 2
+2026-05-01T14:02:10.773Z | sudhnava (daredevil) | note_upload | success | BCS403 sem 4 module 2
+2026-05-01T14:29:39.331Z | sudhnava (daredevil) | login | success | admin logged in
+2026-05-01T18:11:17.208Z | sudhnava (daredevil) | login | success | admin logged in
+2026-05-01T18:21:22.683Z | sudhnava (daredevil) | login | success | admin logged in
+2026-05-01T18:21:47.042Z | sudhnava (daredevil) | note_delete | success | BCS401 module 2
+2026-05-01T18:21:51.191Z | sudhnava (daredevil) | note_delete | success | BCS403 module 2
+2026-05-01T19:26:36.239Z | sudhnava (daredevil) | login | success | admin logged in
+2026-05-01T19:26:36.240Z | sudhnava (daredevil) | login | success | admin logged in
+2026-05-01T19:26:36.346Z | sudhnava (daredevil) | login | success | admin logged in
+2026-05-01T19:26:36.498Z | sudhnava (daredevil) | login | success | admin logged in
+2026-05-02T09:35:08.339Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:14.225Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:15.556Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:15.874Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:16.046Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:16.156Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:16.415Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:16.803Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:17.037Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:17.181Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:17.379Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:26.325Z | dr_doom | login | failed | Invalid credentials
+2026-05-02T09:35:37.325Z | sudhnava (daredevil) | login | success | admin logged in
+2026-05-02T09:35:54.975Z | sudhnava (daredevil) | note_delete | success | BCS403 module 2
+>>>>>>> 820cba84d53e9359744c0d96a2b90fb0649b731b
