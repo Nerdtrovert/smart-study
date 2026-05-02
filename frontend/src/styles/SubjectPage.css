@@ -85,7 +85,7 @@
   transition: border-color 0.15s;
 }
 .module-card:hover  { border-color: var(--green-dim); }
-.module-card--open  { border-color: var(--green-dim); }
+.module-card--open  { border-color: var(--green-dim); overflow: visible; }
 
 .module-card__header {
   display: flex;

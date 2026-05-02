@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/shared/Navbar'
 import HomePage from './pages/HomePage'
 import NotesPage from './pages/NotesPage'
@@ -6,10 +6,14 @@ import SubjectPage from './pages/SubjectPage'
 import PYQsPage from './pages/PYQsPage'
 import PYQSubjectPage from './pages/PYQSubjectPage'
 import AdminPanel from './components/admin/AdminPanel'
+import Footer from './components/shared/Footer'
 
-export default function App() {
+function AppLayout() {
+  const { pathname } = useLocation()
+  const showFooter = pathname === '/'
+
   return (
-    <BrowserRouter>
+    <>
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -21,6 +25,15 @@ export default function App() {
         <Route path="/pyqs/:subjectId" element={<PYQSubjectPage />} />
         <Route path="/admin" element={<AdminPanel />} />
       </Routes>
+      {showFooter && <Footer />}
+    </>
+  )
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppLayout />
     </BrowserRouter>
   )
 }

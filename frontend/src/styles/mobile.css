@@ -51,28 +51,7 @@
     font-size: var(--fs-sm);
   }
 
-  .navbar {
-    height: auto;
-    min-height: 56px;
-    padding: 10px 14px;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .navbar__logo {
-    font-size: var(--fs-xl);
-  }
-
-  .navbar__links {
-    margin-left: auto;
-    gap: 14px;
-  }
-
-  .navbar__links a,
-  .navbar__links span {
-    font-size: var(--fs-md);
-  }
-
+  /* ── Page containers ─────────────────────────────────── */
   .home,
   .notes-page,
   .subject-page,
@@ -81,14 +60,20 @@
     padding-left: 14px;
     padding-right: 14px;
     padding-bottom: 36px;
+    /* Prevent any child from causing horizontal bleed */
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
+  /* ── Hero ────────────────────────────────────────────── */
   .hero {
     padding: 42px 8px 30px;
+    word-break: break-word;
   }
 
   .hero__title {
     font-size: var(--fs-5xl);
+    word-break: break-word;
   }
 
   .hero__tagline {
@@ -99,17 +84,24 @@
     font-size: var(--fs-md);
   }
 
+  /* ── Grids ───────────────────────────────────────────── */
   .nav-labels,
   .scheme-grid,
   .subject-grid {
     grid-template-columns: 1fr;
   }
 
+  /* ── Cards ───────────────────────────────────────────── */
   .request-box,
   .nav-label-card,
   .scheme-card,
   .subject-card {
     padding: 16px;
+  }
+
+  .subject-card__name {
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 
   .subject-card__footer {
@@ -118,6 +110,7 @@
     flex-direction: column;
   }
 
+  /* ── Page headers ────────────────────────────────────── */
   .notes-page__header,
   .subject-page__header,
   .pyq-subject-page__header {
@@ -128,6 +121,8 @@
   .notes-page__title,
   .subject-page__title {
     font-size: var(--fs-4xl);
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 
   .notes-page__subtitle,
@@ -137,6 +132,12 @@
     flex-wrap: wrap;
   }
 
+  /* ── Notes controls — stack vertically ───────────────── */
+  .notes-controls {
+    grid-template-columns: 1fr;
+  }
+
+  /* ── Branch ──────────────────────────────────────────── */
   .branch-section {
     margin-top: 26px;
   }
@@ -144,8 +145,10 @@
   .branch-label {
     font-size: var(--fs-caption);
     margin-bottom: 12px;
+    overflow: hidden;
   }
 
+  /* ── Module / Syllabus cards ─────────────────────────── */
   .syllabus-card,
   .module-card__header,
   .subject-page__pyq-link,
@@ -170,12 +173,18 @@
   .module-card__left {
     width: 100%;
     gap: 10px;
+    min-width: 0; /* allow text to truncate rather than overflow */
   }
 
   .module-card__title {
     font-size: var(--fs-md);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
   }
 
+  /* ── PYQ link ────────────────────────────────────────── */
   .subject-page__pyq-link {
     gap: 10px;
     align-items: flex-start;
@@ -184,6 +193,7 @@
 
   .paper-block__title {
     font-size: var(--fs-xl);
+    word-break: break-word;
   }
 
   .paper-row__header {
@@ -196,11 +206,11 @@
     font-size: var(--fs-sm);
   }
 
+  /* ── PDF viewer toolbar — compact on mobile ──────────── */
   .pdf-viewer__toolbar {
     top: 56px;
-    gap: 10px;
-    align-items: stretch;
-    flex-direction: column;
+    gap: 8px;
+    flex-wrap: wrap;
   }
 
   .pdf-viewer__title {
@@ -208,9 +218,9 @@
   }
 
   .pdf-viewer__actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
   }
 
   .pdf-viewer__button {
@@ -225,6 +235,7 @@
     padding: 8px;
   }
 
+  /* ── Admin ───────────────────────────────────────────── */
   .admin-login {
     margin-top: 58px;
     padding: 22px 16px;
@@ -254,6 +265,7 @@
     width: 100%;
     overflow-x: auto;
     padding: 4px;
+    -webkit-overflow-scrolling: touch;
   }
 
   .admin-tab {
@@ -275,8 +287,16 @@
     justify-content: center;
   }
 
+  /* Batch table — horizontal scroll within its own container only */
+  .batch-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+  }
+
   .batch-table {
     font-size: var(--fs-sm);
+    min-width: 480px; /* keeps columns usable, scroll container handles overflow */
   }
 
   .batch-table th,
@@ -284,33 +304,7 @@
     padding: 8px 10px;
   }
 
-  .upload-row__control {
-    min-width: 110px;
-  }
-
-  .upload-row__course {
-    min-width: 150px;
-  }
-
-  .upload-row__small {
-    width: 84px;
-  }
-
-  .upload-row__file {
-    min-width: 140px;
-    min-height: 36px;
-  }
-
-  .batch-actions {
-    width: 100%;
-    justify-content: stretch;
-  }
-
-  .batch-actions .btn {
-    width: 100%;
-    justify-content: center;
-  }
-
+  /* ── Notifications / logs ────────────────────────────── */
   .notification-card__header,
   .admin-file-card {
     gap: 8px;
@@ -321,6 +315,8 @@
   .notification-card__subject,
   .admin-file-card__title {
     font-size: var(--fs-md);
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 
   .notification-card__message,
@@ -340,25 +336,7 @@
   }
 }
 
-@media (max-width: 390px) and (max-height: 700px) {
-  .navbar {
-    padding-left: max(10px, env(safe-area-inset-left));
-    padding-right: max(10px, env(safe-area-inset-right));
-  }
-
-  .navbar__logo {
-    font-size: var(--fs-lg);
-  }
-
-  .navbar__links {
-    gap: 10px;
-  }
-
-  .navbar__links a,
-  .navbar__links span {
-    font-size: var(--fs-sm);
-  }
-
+@media (max-width: 390px) {
   .hero {
     padding-top: 32px;
     padding-bottom: 24px;

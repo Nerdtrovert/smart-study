@@ -69,4 +69,14 @@ async function removeRecord(name, id) {
   })
 }
 
-module.exports = { readJSON, writeJSON, appendRecord, removeRecord }
+async function updateRecord(name, id, fields) {
+  return mutateJSON(name, data => {
+    const key = name
+    const idx = data[key].findIndex(item => item.id === id)
+    if (idx === -1) return null
+    data[key][idx] = { ...data[key][idx], ...fields }
+    return data[key][idx]
+  })
+}
+
+module.exports = { readJSON, writeJSON, appendRecord, removeRecord, updateRecord }

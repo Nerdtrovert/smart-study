@@ -4,13 +4,52 @@
   z-index: 100;
   background: var(--bg2);
   border-bottom: 1px solid var(--border);
-  height: 59.8px;
+  min-height: 59.8px;
+  padding: 0 32.2px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32.2px;
 }
 
+/* ── Brand (logo side) ─────────────────────────────────── */
+.navbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+/* Mobile-only action cluster (search icon + hamburger) — hidden on desktop */
+.navbar__brand-actions {
+  display: none;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Mobile-only icon search button */
+.navbar__search-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text3);
+  padding: 5px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.navbar__search-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.navbar__search-btn:hover {
+  border-color: var(--green-dim);
+  color: var(--text);
+}
+
+/* ── Logo ──────────────────────────────────────────────── */
 .navbar__logo {
   font-family: var(--font-serif);
   font-size: var(--fs-2xl);
@@ -19,6 +58,22 @@
   letter-spacing: 0.02em;
 }
 
+/* ── Hamburger toggle — hidden on desktop ──────────────── */
+.navbar__toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.navbar__toggle svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* ── Links row (right side on desktop) ─────────────────── */
 .navbar__links {
   display: flex;
   gap: 27.6px;
@@ -45,4 +100,92 @@
   pointer-events: none;
   cursor: not-allowed;
   opacity: 0.65;
+}
+
+/* ── Desktop search pill (inside .navbar__links) ───────── */
+.navbar__search-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  color: var(--text3);
+  padding: 5px 14px 5px 10px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  margin-left: 4px;
+}
+
+.navbar__search-pill svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.navbar__search-pill:hover {
+  border-color: var(--green-dim);
+  color: var(--text);
+  background: var(--bg3);
+}
+
+/* ── Mobile ────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .navbar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+  }
+
+  .navbar__brand {
+    padding: 14px 20px;
+    justify-content: space-between;
+  }
+
+  /* Show mobile action cluster */
+  .navbar__brand-actions {
+    display: flex;
+  }
+
+  .navbar__toggle {
+    display: block;
+  }
+
+  .navbar__links {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    width: 100%;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 10px 20px 20px;
+  }
+
+  .navbar__links--open {
+    display: flex;
+  }
+
+  .navbar__links a,
+  .navbar__links span {
+    padding: 14px 0;
+    font-size: var(--fs-lg);
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .navbar__links a:last-child {
+    border-bottom: none;
+  }
+
+  .navbar__links a.active {
+    border-bottom: 1px solid var(--border-soft);
+    color: var(--green);
+  }
+
+  /* Hide desktop search pill on mobile */
+  .navbar__search-pill {
+    display: none;
+  }
 }

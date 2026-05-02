@@ -6,7 +6,7 @@ const os = require('os')
 const { authMiddleware, mainAdminOnly } = require('../middleware/auth')
 const { uploadToDrive, deleteFromDrive } = require('../utils/driveUpload')
 const { normalizeBranch, isValidBranch, getBranchOptions } = require('../utils/branch')
-const { appendRecord, readJSON, removeRecord } = require('../utils/jsonStore')
+const { appendRecord, readJSON, removeRecord, updateRecord } = require('../utils/jsonStore')
 const { appendLog } = require('../utils/adminLog')
 const router = express.Router()
 
@@ -141,7 +141,7 @@ router.post('/pyq', authMiddleware, upload.single('file'), async (req, res, next
   }
 })
 
-router.delete('/note/:id', authMiddleware, mainAdminOnly, async (req, res, next) => {
+router.delete('/note/:id', authMiddleware, async (req, res, next) => {
   try {
     const data = await readJSON('notes')
     const record = data.notes.find(note => note.id === req.params.id)
@@ -163,7 +163,7 @@ router.delete('/note/:id', authMiddleware, mainAdminOnly, async (req, res, next)
   }
 })
 
-router.delete('/pyq/:id', authMiddleware, mainAdminOnly, async (req, res, next) => {
+router.delete('/pyq/:id', authMiddleware, async (req, res, next) => {
   try {
     const data = await readJSON('pyqs')
     const record = data.pyqs.find(paper => paper.id === req.params.id)
@@ -181,6 +181,60 @@ router.delete('/pyq/:id', authMiddleware, mainAdminOnly, async (req, res, next) 
     res.json({ ok: true })
   } catch (err) {
     appendLog('pyq_delete', { actor: req.admin?.username, actorName: req.admin?.name, status: 'failed', message: err.message })
+    next(err)
+  }
+})
+
+// PATCH /api/upload/note/:id  — edit editable fields
+router.patch('/note/:id', authMiddleware, async (req, res, next) => {
+  try {
+    const allowed = ['title', 'module_number', 'subject_code', 'subject', 'semester', 'branch']
+    const fields = {}
+    for (const key of allowed) {
+      if (req.body[key] !== undefined) fields[key] = req.body[key]
+    }
+    if (fields.module_number) fields.module_number = Number(fields.module_number)
+    if (fields.semester) fields.semester = Number(fields.semester)
+
+    const updated = await updateRecord('notes', req.params.id, fields)
+    if (!updated) return res.status(404).json({ error: 'Note not found' })
+
+    appendLog('note_edit', {
+      actor: req.admin.username,
+      actorName: req.admin.name,
+      status: 'success',
+      message: `Edited note ${req.params.id}: ${JSON.stringify(fields)}`
+    })
+    window.dispatchEvent?.(new Event('smart-study:data-updated'))
+    res.json({ ok: true, record: updated })
+  } catch (err) {
+    next(err)
+  }
+})
+
+// PATCH /api/upload/pyq/:id  — edit editable fields
+router.patch('/pyq/:id', authMiddleware, async (req, res, next) => {
+  try {
+    const allowed = ['subject_code', 'subject_name', 'exam_type', 'year', 'paper_number', 'semester']
+    const fields = {}
+    for (const key of allowed) {
+      if (req.body[key] !== undefined) fields[key] = req.body[key]
+    }
+    if (fields.semester) fields.semester = Number(fields.semester)
+    if (fields.year) fields.year = Number(fields.year)
+    if (fields.paper_number) fields.paper_number = Number(fields.paper_number)
+
+    const updated = await updateRecord('pyqs', req.params.id, fields)
+    if (!updated) return res.status(404).json({ error: 'PYQ not found' })
+
+    appendLog('pyq_edit', {
+      actor: req.admin.username,
+      actorName: req.admin.name,
+      status: 'success',
+      message: `Edited pyq ${req.params.id}: ${JSON.stringify(fields)}`
+    })
+    res.json({ ok: true, record: updated })
+  } catch (err) {
     next(err)
   }
 })
