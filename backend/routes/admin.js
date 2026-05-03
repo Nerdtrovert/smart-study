@@ -1,10 +1,13 @@
 const express = require('express')
 const path = require('path')
+const fs = require('fs')
 const { authMiddleware, mainAdminOnly } = require('../middleware/auth')
 const { readJSON } = require('../utils/jsonStore')
 const { protectRecordPdf } = require('../utils/pdfLinks')
 const { getLogFilePath, appendLog, resetLogs, getLogSettings } = require('../utils/adminLog')
 const { normalizeBranch } = require('../utils/branch')
+const { rebuildCatalogFromDrive } = require('../utils/driveCatalog')
+const { DATA_DIR } = require('../utils/storagePaths')
 
 const router = express.Router()
 
@@ -55,6 +58,28 @@ router.get('/logs/download', authMiddleware, mainAdminOnly, (req, res) => {
   res.download(file, `smart-study-admin-${new Date().toISOString().split('T')[0]}.log`)
 })
 
+router.get('/data/:name/download', authMiddleware, mainAdminOnly, (req, res) => {
+  const allowed = new Set(['notes', 'pyqs', 'requests', 'admins'])
+  const name = `${req.params.name || ''}`.trim().toLowerCase()
+
+  if (!allowed.has(name)) {
+    return res.status(400).json({ error: 'Unsupported data file' })
+  }
+
+  const file = path.join(DATA_DIR, `${name}.json`)
+  if (!fs.existsSync(file)) {
+    return res.status(404).json({ error: `${name}.json not found` })
+  }
+
+  appendLog('data_download', {
+    actor: req.admin.username,
+    actorName: req.admin.name,
+    status: 'success',
+    message: `Downloaded ${name}.json`,
+  })
+  res.download(file, `smart-study-${name}-${new Date().toISOString().split('T')[0]}.json`)
+})
+
 router.get('/logs', authMiddleware, mainAdminOnly, (req, res) => {
   const file = getLogFilePath()
   res.sendFile(path.resolve(file))
@@ -67,6 +92,27 @@ router.get('/logs/settings', authMiddleware, mainAdminOnly, (req, res) => {
 router.post('/logs/reset', authMiddleware, mainAdminOnly, (req, res) => {
   resetLogs()
   res.json({ ok: true })
+})
+
+router.post('/rebuild-catalog', authMiddleware, mainAdminOnly, async (req, res, next) => {
+  try {
+    const summary = await rebuildCatalogFromDrive()
+    appendLog('catalog_rebuild', {
+      actor: req.admin.username,
+      actorName: req.admin.name,
+      status: summary.unresolved.length ? 'warning' : 'success',
+      message: `Scanned ${summary.scanned}, restored ${summary.restored}, unresolved ${summary.unresolved.length}`,
+    })
+    res.json({ ok: true, ...summary })
+  } catch (err) {
+    appendLog('catalog_rebuild', {
+      actor: req.admin?.username,
+      actorName: req.admin?.name,
+      status: 'failed',
+      message: err.message,
+    })
+    next(err)
+  }
 })
 
 module.exports = router

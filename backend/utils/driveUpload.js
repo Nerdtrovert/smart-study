@@ -22,13 +22,20 @@ function getDriveClient() {
   return google.drive({ version: 'v3', auth: oauth2Client })
 }
 
-async function uploadToDrive(filePath, fileName) {
+async function uploadToDrive(filePath, fileName, metadata = {}) {
   const drive = getDriveClient()
+
+  const appProperties = Object.fromEntries(
+    Object.entries(metadata)
+      .filter(([, value]) => value !== undefined && value !== null && value !== '')
+      .map(([key, value]) => [key, `${value}`])
+  )
 
   const { data } = await drive.files.create({
     requestBody: {
       name: fileName,
-      parents: [process.env.DRIVE_FOLDER_ID]
+      parents: [process.env.DRIVE_FOLDER_ID],
+      appProperties
     },
     media: {
       mimeType: 'application/pdf',

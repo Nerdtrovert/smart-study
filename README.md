@@ -20,7 +20,7 @@ npm run dev
 Frontend runs on http://localhost:5175
 
 ## Deployment notes
-- Render: add `apt-get install -y ghostscript` as build command for PDF compression
-- Windows local setup: install Ghostscript and set `GHOSTSCRIPT_PATH` in `.env` if `gswin64c.exe` is not in PATH
-- Set all .env vars in Render/Netlify dashboard
-- DRIVE_FOLDER_ID: create a folder in Drive, share it with your service account email
+- Render persistence: mount a persistent disk on the backend service and set `DATA_DIR` to that mount path (example: `/var/data/smart-study/data`) so `notes.json`, `pyqs.json`, `requests.json`, and `admins.json` survive redeploys
+- Recovery: if catalog JSON is lost but PDFs still exist in Drive, run `npm run rebuild-catalog` inside `backend` or call `POST /api/admin/rebuild-catalog` as the main admin
+- Upload naming: new PDFs are saved to Drive with canonical filenames and embedded metadata so rebuilds can recover them much more reliably
+- Downloading live data: as main admin, use `GET /api/admin/data/notes/download` (or `pyqs`, `requests`, `admins`) to download the current persistent JSON file

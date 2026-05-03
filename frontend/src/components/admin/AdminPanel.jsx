@@ -5,6 +5,7 @@ import BatchUploadForm from './BatchUploadForm'
 import NotificationsPanel from './NotificationsPanel'
 import UploadedFilesPanel from './UploadedFilesPanel'
 import LogsPanel from './LogsPanel'
+import brandLogo from '../../assets/brand-logo.png'
 
 export default function AdminPanel() {
   const [authed, setAuthed] = useState(false)
@@ -12,6 +13,7 @@ export default function AdminPanel() {
   const [admin, setAdmin] = useState(null)
   const [error, setError] = useState(null)
   const [tab, setTab] = useState('upload')
+  const [rebuildState, setRebuildState] = useState({ loading: false, message: '', kind: '' })
 
   useEffect(() => {
     const token = localStorage.getItem('admin_token')
@@ -41,9 +43,35 @@ export default function AdminPanel() {
     }
   }
 
+  const rebuildCatalog = async () => {
+    const token = localStorage.getItem('admin_token')
+    if (!token) return
+
+    setRebuildState({ loading: true, message: '', kind: '' })
+    try {
+      const { data } = await axios.post('/api/admin/rebuild-catalog', {}, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+
+      const unresolvedCount = data.unresolved?.length || 0
+      const message = unresolvedCount > 0
+        ? `Restored ${data.restored} files, but ${unresolvedCount} still need manual review.`
+        : `Restored ${data.restored} files from Drive.`
+
+      setRebuildState({ loading: false, message, kind: unresolvedCount > 0 ? 'warn' : 'success' })
+      window.dispatchEvent(new Event('smart-study:data-updated'))
+    } catch (err) {
+      setRebuildState({
+        loading: false,
+        message: err.response?.data?.error || 'Catalog rebuild failed',
+        kind: 'error'
+      })
+    }
+  }
+
   if (!authed) return (
     <div className="admin-login">
-      <img src="/favicon.png" alt="Smart Study logo" className="admin-login__logo" />
+      <img src={brandLogo} alt="Smart Study logo" className="admin-login__logo" />
       <h1 className="admin-login__title">Admin</h1>
       <p className="admin-login__sub">Smart Study · Dr. HNNCE</p>
       <form onSubmit={login}>
@@ -64,10 +92,27 @@ export default function AdminPanel() {
   return (
     <div className="admin-page">
       <div className="admin-header">
-        <h1 className="admin-header__title">Admin panel</h1>
-        <button className="btn btn--ghost" onClick={() => { localStorage.removeItem('admin_token'); setAdmin(null); setAuthed(false) }}>
-          Logout
-        </button>
+        <div>
+          <h1 className="admin-header__title">Admin panel</h1>
+          {rebuildState.message && (
+            <p className={`admin-header__status admin-header__status--${rebuildState.kind}`}>
+              {rebuildState.message}
+            </p>
+          )}
+        </div>
+        <div className="admin-header__actions">
+          {admin?.isMain && (
+            <button className="btn btn--blue" onClick={rebuildCatalog} disabled={rebuildState.loading}>
+              {rebuildState.loading ? 'Rebuilding...' : 'Rebuild from Drive'}
+            </button>
+          )}
+          <span className="admin-header__user">
+            {admin?.name || admin?.username}
+          </span>
+          <button className="btn btn--ghost" onClick={() => { localStorage.removeItem('admin_token'); setAdmin(null); setAuthed(false) }}>
+            Logout
+          </button>
+        </div>
       </div>
       <div className="admin-tabs">
         <button className={`admin-tab ${tab === 'upload' ? 'admin-tab--active' : ''}`} onClick={() => setTab('upload')}>

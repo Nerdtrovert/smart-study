@@ -1,8 +1,16 @@
 const fs = require('fs').promises
 const path = require('path')
+const { DATA_DIR, REPO_DATA_DIR, ensureDir, ensureSeededFile } = require('./storagePaths')
 
-const DATA_DIR = path.join(__dirname, '../data')
 const collectionLocks = new Map()
+
+function getCollectionFile(name) {
+  const file = path.join(DATA_DIR, `${name}.json`)
+  const seedFile = path.join(REPO_DATA_DIR, `${name}.json`)
+  ensureDir(DATA_DIR)
+  ensureSeededFile(file, seedFile, JSON.stringify({ [name]: [] }, null, 2))
+  return file
+}
 
 function withCollectionLock(name, action) {
   const current = (collectionLocks.get(name) || Promise.resolve()).catch(() => undefined)
@@ -21,7 +29,7 @@ function withCollectionLock(name, action) {
 
 async function readJSON(name) {
   try {
-    const file = path.join(DATA_DIR, `${name}.json`)
+    const file = getCollectionFile(name)
     const raw = await fs.readFile(file, 'utf-8')
     return JSON.parse(raw)
   } catch (err) {
@@ -31,8 +39,9 @@ async function readJSON(name) {
 
 async function writeJSON(name, data) {
   try {
-    const file = path.join(DATA_DIR, `${name}.json`)
+    const file = getCollectionFile(name)
     await fs.writeFile(file, JSON.stringify(data, null, 2), 'utf-8')
+    return data
   } catch (err) {
     throw new Error(`[jsonStore:${name}] ${err.message}`)
   }

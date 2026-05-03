@@ -20,6 +20,28 @@ function normalizeCourseCode(value = '') {
   return `${value}`.trim().toUpperCase()
 }
 
+function slugPart(value = '') {
+  return `${value}`
+    .trim()
+    .toUpperCase()
+    .replace(/&/g, 'AND')
+    .replace(/[\/\s]+/g, '-')
+    .replace(/[^A-Z0-9_-]/g, '')
+}
+
+function buildNoteFilename({ semester, branch, subjectCode, noteType, moduleNumber }) {
+  const parts = ['NOTE', `SEM${semester}`, slugPart(branch), slugPart(subjectCode)]
+  parts.push(noteType === 'module' && moduleNumber ? `MODULE${moduleNumber}` : 'SYLLABUS')
+  return `${parts.join('_')}.pdf`
+}
+
+function buildPyqFilename({ semester, subjectCode, examType, year, paperNumber }) {
+  const parts = ['PYQ', `SEM${semester}`, slugPart(subjectCode), slugPart(examType)]
+  if (examType === 'SEE' && year) parts.push(`${year}`)
+  if (examType === 'SEE' && paperNumber) parts.push(`PAPER${paperNumber}`)
+  return `${parts.join('_')}.pdf`
+}
+
 function requireFields(body, file, fields) {
   if (!file) return 'PDF file is required'
 
@@ -75,7 +97,26 @@ router.post('/note', authMiddleware, upload.single('file'), async (req, res, nex
       return res.status(400).json({ error: branchError })
     }
 
-    const driveFile = await uploadToDrive(req.file.path, req.file.originalname)
+    const uploadedAt = new Date().toISOString().split('T')[0]
+    const noteFilename = buildNoteFilename({
+      semester: Number(semester),
+      branch: normalizedBranch,
+      subjectCode: normalizedCode,
+      noteType: note_type,
+      moduleNumber: note_type === 'module' ? Number(module_number) : null,
+    })
+    const driveFile = await uploadToDrive(req.file.path, noteFilename, {
+      smartStudyType: 'note',
+      semester: Number(semester),
+      branch: normalizedBranch,
+      subject_code: normalizedCode,
+      subject: normalizedCode,
+      note_type,
+      module_number: note_type === 'module' ? Number(module_number) : '',
+      title: note_type === 'module' ? `Module ${Number(module_number)}` : 'Syllabus',
+      original_name: req.file.originalname.replace('.pdf', ''),
+      uploaded_at: uploadedAt,
+    })
 
     const record = {
       id: `note_${Date.now()}`,
@@ -85,10 +126,10 @@ router.post('/note', authMiddleware, upload.single('file'), async (req, res, nex
       subject: normalizedCode,
       type: note_type,                                       // 'module' | 'syllabus'
       module_number: note_type === 'module' ? Number(module_number) : null,
-      title: req.file.originalname.replace('.pdf', ''),
+      title: note_type === 'module' ? `Module ${Number(module_number)}` : 'Syllabus',
       drive_file_id: driveFile.fileId,
       drive_url: `/api/files/${driveFile.fileId}`,
-      uploaded_at: new Date().toISOString().split('T')[0]
+      uploaded_at: uploadedAt
     }
     await appendRecord('notes', record)
     appendLog('note_upload', {
@@ -126,7 +167,25 @@ router.post('/pyq', authMiddleware, upload.single('file'), async (req, res, next
       return res.status(400).json({ error: validationError })
     }
 
-    const driveFile = await uploadToDrive(req.file.path, req.file.originalname)
+    const uploadedAt = new Date().toISOString().split('T')[0]
+    const pyqFilename = buildPyqFilename({
+      semester: Number(semester),
+      subjectCode: normalizedCode,
+      examType: exam_type,
+      year: exam_type === 'SEE' ? Number(year) : null,
+      paperNumber: exam_type === 'SEE' ? Number(paper_number) : null,
+    })
+    const driveFile = await uploadToDrive(req.file.path, pyqFilename, {
+      smartStudyType: 'pyq',
+      semester: Number(semester),
+      subject_code: normalizedCode,
+      subject_name: normalizedCode,
+      exam_type,
+      year: exam_type === 'SEE' ? Number(year) : '',
+      paper_number: exam_type === 'SEE' ? Number(paper_number) : '',
+      original_name: req.file.originalname.replace('.pdf', ''),
+      uploaded_at: uploadedAt,
+    })
 
     const record = {
       id: `pyq_${Date.now()}`,
@@ -138,7 +197,7 @@ router.post('/pyq', authMiddleware, upload.single('file'), async (req, res, next
       paper_number: exam_type === 'SEE' ? Number(paper_number) : null,
       drive_file_id: driveFile.fileId,
       drive_url: `/api/files/${driveFile.fileId}`,
-      uploaded_at: new Date().toISOString().split('T')[0]
+      uploaded_at: uploadedAt
     }
     await appendRecord('pyqs', record)
     appendLog('pyq_upload', {

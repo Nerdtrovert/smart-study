@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
+const { LOG_DIR, REPO_LOG_DIR, ensureDir, ensureSeededFile } = require('./storagePaths')
 
-const LOG_DIR = path.join(__dirname, '../logs')
 const LOG_FILE = path.join(LOG_DIR, 'admin.log')
 const LOG_STATE_FILE = path.join(LOG_DIR, 'admin-log-state.json')
 
@@ -24,8 +24,13 @@ function currentMonthKey() {
 }
 
 function ensureLogFile() {
-  fs.mkdirSync(LOG_DIR, { recursive: true })
-  if (!fs.existsSync(LOG_FILE)) fs.writeFileSync(LOG_FILE, '', 'utf-8')
+  ensureDir(LOG_DIR)
+  ensureSeededFile(LOG_FILE, path.join(REPO_LOG_DIR, 'admin.log'), '')
+  ensureSeededFile(
+    LOG_STATE_FILE,
+    path.join(REPO_LOG_DIR, 'admin-log-state.json'),
+    JSON.stringify({ lastResetMonth: null, lastResetAt: null }, null, 2)
+  )
 }
 
 function readState() {

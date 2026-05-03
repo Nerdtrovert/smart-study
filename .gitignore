@@ -3,5 +3,8 @@ node_modules/
 /tmp/uploads/
 dist/
 *.pdf
-notes.json
-admin.log
+backend/data/notes.json
+backend/data/pyqs.json
+backend/data/requests.json
+backend/logs/admin.log
+backend/logs/admin-log-state.json

@@ -16,7 +16,7 @@ router.post('/login', async (req, res, next) => {
       return res.status(401).json({ error: 'Invalid credentials' })
     }
 
-    const token = jwt.sign(admin, process.env.JWT_SECRET, { expiresIn: '7d' })
+    const token = jwt.sign(admin, process.env.JWT_SECRET, { expiresIn: '8h' })
     appendLog('login', {
       actor: admin.username,
       actorName: admin.name,

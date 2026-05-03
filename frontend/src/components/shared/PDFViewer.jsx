@@ -10,6 +10,16 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 // Detect mobile once at module level (doesn't change after load)
 const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 640px)').matches
 
+function buildViewerUrl(pdfUrl) {
+  if (!pdfUrl) return ''
+
+  const [base, hash = ''] = pdfUrl.split('#')
+  const params = new URLSearchParams(hash)
+  params.set('navpanes', '0')
+
+  return `${base}#${params.toString()}`
+}
+
 export default function PDFViewer({ url, filename = 'Smart_Study_Document.pdf' }) {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [error, setError] = useState('')
@@ -18,6 +28,7 @@ export default function PDFViewer({ url, filename = 'Smart_Study_Document.pdf' }
   const containerRef = useRef(null)
 
   const downloadUrl = url ? (url.includes('?') ? `${url}&download=1` : `${url}?download=1`) : ''
+  const viewerUrl = buildViewerUrl(url)
 
   useEffect(() => {
     setPageNumber(1)
@@ -101,8 +112,8 @@ export default function PDFViewer({ url, filename = 'Smart_Study_Document.pdf' }
         ) : (
           /* ── Desktop: native browser iframe — instant! ─────── */
           <iframe
-            key={url}
-            src={url}
+            key={viewerUrl}
+            src={viewerUrl}
             title="PDF Viewer"
             className="pdf-viewer__iframe"
           />

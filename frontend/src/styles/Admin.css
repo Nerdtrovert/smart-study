@@ -57,10 +57,39 @@
   border-bottom: 1px solid var(--border);
 }
 
+.admin-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 9.2px;
+}
+
+.admin-header__user {
+  color: var(--text2);
+  font-size: var(--fs-md);
+  white-space: nowrap;
+}
+
 .admin-header__title {
   font-family: var(--font-serif);
   font-size: var(--fs-4xl);
   color: var(--text);
+}
+
+.admin-header__status {
+  margin-top: 6.9px;
+  font-size: var(--fs-md);
+}
+
+.admin-header__status--success {
+  color: var(--green);
+}
+
+.admin-header__status--warn {
+  color: #e3b26a;
+}
+
+.admin-header__status--error {
+  color: #e07070;
 }
 
 /* ── Tabs ───────────────────────────────────────────────── */
@@ -371,6 +400,15 @@
   .admin-file-card {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .admin-header__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-header__user {
+    text-align: left;
   }
 }
 

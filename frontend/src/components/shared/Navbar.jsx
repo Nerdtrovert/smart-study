@@ -2,6 +2,7 @@ import '../../styles/Navbar.css'
 import { Link, NavLink } from 'react-router-dom'
 import { useState } from 'react'
 import GlobalSearch from './GlobalSearch'
+import brandLogo from '../../assets/brand-logo.png'
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -17,7 +18,7 @@ export default function Navbar() {
       <nav className="navbar">
         <div className="navbar__brand">
           <Link to="/" className="navbar__logo" aria-label="Smart Study home">
-        <img src="/favicon.png" alt="" className="navbar__logo-mark" />
+        <img src={brandLogo} alt="" className="navbar__logo-mark" />
         <span onClick={closeMenu}>Smart Study</span>
       </Link>
 
