@@ -88,4 +88,4 @@ async function updateRecord(name, id, fields) {
   })
 }
 
-module.exports = { readJSON, writeJSON, appendRecord, removeRecord, updateRecord }
+module.exports = { readJSON, writeJSON, mutateJSON, appendRecord, removeRecord, updateRecord }

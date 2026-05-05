@@ -269,8 +269,15 @@ router.patch('/note/:id', authMiddleware, async (req, res, next) => {
     for (const key of allowed) {
       if (req.body[key] !== undefined) fields[key] = req.body[key]
     }
-    if (fields.module_number) fields.module_number = Number(fields.module_number)
-    if (fields.semester) fields.semester = Number(fields.semester)
+    if (fields.subject_code !== undefined) fields.subject_code = normalizeCourseCode(fields.subject_code)
+    if (fields.branch !== undefined) {
+      fields.branch = normalizeBranch(fields.branch)
+      if (!isValidBranch(fields.branch)) {
+        return res.status(400).json({ error: `Branch must be one of: ${getBranchOptions().join(', ')}` })
+      }
+    }
+    if (fields.module_number !== undefined && `${fields.module_number}` !== '') fields.module_number = Number(fields.module_number)
+    if (fields.semester !== undefined && `${fields.semester}` !== '') fields.semester = Number(fields.semester)
 
     const updated = await updateRecord('notes', req.params.id, fields)
     if (!updated) return res.status(404).json({ error: 'Note not found' })
@@ -281,7 +288,6 @@ router.patch('/note/:id', authMiddleware, async (req, res, next) => {
       status: 'success',
       message: `Edited note ${req.params.id}: ${JSON.stringify(fields)}`
     })
-    window.dispatchEvent?.(new Event('smart-study:data-updated'))
     res.json({ ok: true, record: updated })
   } catch (err) {
     next(err)
@@ -296,9 +302,11 @@ router.patch('/pyq/:id', authMiddleware, async (req, res, next) => {
     for (const key of allowed) {
       if (req.body[key] !== undefined) fields[key] = req.body[key]
     }
-    if (fields.semester) fields.semester = Number(fields.semester)
-    if (fields.year) fields.year = Number(fields.year)
-    if (fields.paper_number) fields.paper_number = Number(fields.paper_number)
+    if (fields.subject_code !== undefined) fields.subject_code = normalizeCourseCode(fields.subject_code)
+    if (fields.exam_type !== undefined) fields.exam_type = `${fields.exam_type}`.trim().toUpperCase()
+    if (fields.semester !== undefined && `${fields.semester}` !== '') fields.semester = Number(fields.semester)
+    if (fields.year !== undefined && `${fields.year}` !== '') fields.year = Number(fields.year)
+    if (fields.paper_number !== undefined && `${fields.paper_number}` !== '') fields.paper_number = Number(fields.paper_number)
 
     const updated = await updateRecord('pyqs', req.params.id, fields)
     if (!updated) return res.status(404).json({ error: 'PYQ not found' })

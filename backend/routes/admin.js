@@ -8,6 +8,7 @@ const { getLogFilePath, appendLog, resetLogs, getLogSettings } = require('../uti
 const { normalizeBranch } = require('../utils/branch')
 const { rebuildCatalogFromDrive } = require('../utils/driveCatalog')
 const { DATA_DIR } = require('../utils/storagePaths')
+const { listAdmins, createAdmin } = require('../utils/adminUsers')
 
 const router = express.Router()
 
@@ -87,6 +88,37 @@ router.get('/logs', authMiddleware, mainAdminOnly, (req, res) => {
 
 router.get('/logs/settings', authMiddleware, mainAdminOnly, (req, res) => {
   res.json({ ok: true, ...getLogSettings() })
+})
+
+router.get('/admins', authMiddleware, mainAdminOnly, async (req, res, next) => {
+  try {
+    const admins = await listAdmins()
+    res.json({ ok: true, admins })
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/admins', authMiddleware, mainAdminOnly, async (req, res, next) => {
+  try {
+    const admin = await createAdmin(req.body || {})
+    appendLog('admin_create', {
+      actor: req.admin.username,
+      actorName: req.admin.name,
+      status: 'success',
+      message: `Created admin ${admin.username}`,
+    })
+    res.status(201).json({ ok: true, admin })
+  } catch (err) {
+    appendLog('admin_create', {
+      actor: req.admin?.username,
+      actorName: req.admin?.name,
+      status: 'failed',
+      message: err.message,
+    })
+    if (err.statusCode) return res.status(err.statusCode).json({ error: err.message })
+    next(err)
+  }
 })
 
 router.post('/logs/reset', authMiddleware, mainAdminOnly, (req, res) => {

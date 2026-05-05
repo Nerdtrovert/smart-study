@@ -5,6 +5,7 @@ import BatchUploadForm from './BatchUploadForm'
 import NotificationsPanel from './NotificationsPanel'
 import UploadedFilesPanel from './UploadedFilesPanel'
 import LogsPanel from './LogsPanel'
+import AdminsPanel from './AdminsPanel'
 import brandLogo from '../../assets/brand-logo.png'
 
 export default function AdminPanel() {
@@ -13,6 +14,7 @@ export default function AdminPanel() {
   const [admin, setAdmin] = useState(null)
   const [error, setError] = useState(null)
   const [tab, setTab] = useState('upload')
+  const [showPassword, setShowPassword] = useState(false)
   const [rebuildState, setRebuildState] = useState({ loading: false, message: '', kind: '' })
 
   useEffect(() => {
@@ -80,8 +82,18 @@ export default function AdminPanel() {
             onChange={e => setCreds({ ...creds, username: e.target.value })} />
         </div>
         <div className="admin-login__field">
-          <input className="input" type="password" placeholder="Password" value={creds.password}
-            onChange={e => setCreds({ ...creds, password: e.target.value })} />
+          <div className="admin-password">
+            <input className="input admin-password__input" type={showPassword ? 'text' : 'password'} placeholder="Password" value={creds.password}
+              onChange={e => setCreds({ ...creds, password: e.target.value })} />
+            <button
+              type="button"
+              className="admin-password__toggle"
+              onClick={() => setShowPassword(current => !current)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? 'Hide' : 'Show'}
+            </button>
+          </div>
         </div>
         <button type="submit" className="btn btn--green" style={{ width: '100%', justifyContent: 'center' }}>Login</button>
       </form>
@@ -129,11 +141,17 @@ export default function AdminPanel() {
             Logs
           </button>
         )}
+        {admin?.isMain && (
+          <button className={`admin-tab ${tab === 'admins' ? 'admin-tab--active' : ''}`} onClick={() => setTab('admins')}>
+            Admins
+          </button>
+        )}
       </div>
       {tab === 'upload' && <BatchUploadForm />}
       {tab === 'requests' && <NotificationsPanel />}
       {tab === 'files' && <UploadedFilesPanel admin={admin} />}
       {tab === 'logs' && <LogsPanel admin={admin} />}
+      {tab === 'admins' && <AdminsPanel admin={admin} />}
     </div>
   )
 }

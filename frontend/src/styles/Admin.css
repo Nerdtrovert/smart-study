@@ -47,6 +47,26 @@
   margin-top: 9.2px;
 }
 
+.admin-password {
+  position: relative;
+}
+
+.admin-password__input {
+  padding-right: 74px;
+}
+
+.admin-password__toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: var(--text2);
+  font-size: var(--fs-md);
+  cursor: pointer;
+}
+
 /* ── Header ─────────────────────────────────────────────── */
 .admin-header {
   display: flex;
@@ -395,7 +415,31 @@
   font-size: var(--fs-sm);
 }
 
+.admin-create-form {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  align-items: center;
+}
+
+.admin-admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-admin-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+
 @media (max-width: 720px) {
+  .admin-create-form {
+    grid-template-columns: 1fr;
+  }
+
   .batch-upload__header,
   .admin-file-card {
     align-items: stretch;

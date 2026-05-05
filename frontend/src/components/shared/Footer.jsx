@@ -8,16 +8,16 @@ export default function Footer() {
           Helping students study smarter, not harder.
         </p>
         <p className="footer__credit">
-          Developed by{' '}
+          Developed and Designed ❤️ by{" "}
           <a
             href="https://github.com/Nerdtrovert"
             target="_blank"
             rel="noopener noreferrer"
             className="footer__link"
           >
-            Prajwal ❤️
-          </a>
-          {' '}and{' '}
+            Prajwal
+          </a>{" "}
+          and{" "}
           <a
             href="https://github.com/sudhanva1608"
             target="_blank"
@@ -29,5 +29,5 @@ export default function Footer() {
         </p>
       </div>
     </footer>
-  )
+  );
 }

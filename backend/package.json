@@ -8,6 +8,7 @@
     "rebuild-catalog": "node scripts/rebuildCatalog.js"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",

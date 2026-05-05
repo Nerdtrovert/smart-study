@@ -3,12 +3,14 @@
     {
       "name": "sudhnava",
       "username": "daredevil",
-      "password": "sinchanva8488"
+      "passwordHash": "$2b$12$yq1ATsRpyxamVCXjjHhMa.fII5Lq3Br/ced3jWOC49.JkjWMC6l0a",
+      "active": true
     },
     {
       "name": "shireesha",
       "username": "shireesha",
-      "password": "shireesha123"
+      "passwordHash": "$2b$12$.O/WA365tqrF8g/gqQZCsuTjAkMdyb4qwnq9MJc9d1TR0PCeE.DBy",
+      "active": true
     }
   ]
 }
