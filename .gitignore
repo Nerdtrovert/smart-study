@@ -9,3 +9,4 @@ backend/data/requests.json
 backend/logs/admin.log
 backend/logs/admin-log-state.json
 README_ME.md
+admin.log

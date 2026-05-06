@@ -48,3 +48,4 @@
 2026-05-05T15:42:57.382Z | dr_doom | error | failed | POST /api/upload/note: invalid_grant
 2026-05-05T15:43:10.847Z | dr_doom | catalog_rebuild | failed | invalid_grant
 2026-05-05T15:43:10.851Z | dr_doom | error | failed | POST /api/admin/rebuild-catalog: invalid_grant
+2026-05-06T12:28:35.417Z | sudhnava (daredevil) | login | success | admin logged in

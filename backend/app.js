@@ -34,7 +34,7 @@ const frontendPath = path.join(__dirname, '../frontend/dist')
 app.use(express.static(frontendPath))
 
 // SPA fallback: redirect all non-API routes to index.html
-app.get('*', (req, res) => {
+app.get(/(.*)/, (req, res) => {
   res.sendFile(path.join(frontendPath, 'index.html'))
 })
 
