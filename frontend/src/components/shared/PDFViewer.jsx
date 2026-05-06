@@ -25,6 +25,7 @@ export default function PDFViewer({ url, filename = 'Smart_Study_Document.pdf' }
   const [error, setError] = useState('')
   const [numPages, setNumPages] = useState(null)
   const [pageNumber, setPageNumber] = useState(1)
+  const [visiblePages, setVisiblePages] = useState(new Set([1]))
   const containerRef = useRef(null)
 
   const downloadUrl = url ? (url.includes('?') ? `${url}&download=1` : `${url}?download=1`) : ''
@@ -33,6 +34,7 @@ export default function PDFViewer({ url, filename = 'Smart_Study_Document.pdf' }
   useEffect(() => {
     setPageNumber(1)
     setError('')
+    setVisiblePages(new Set([1]))
   }, [url])
 
   const toggleFullscreen = () => {
@@ -48,6 +50,26 @@ export default function PDFViewer({ url, filename = 'Smart_Study_Document.pdf' }
     document.addEventListener('fullscreenchange', handler)
     return () => document.removeEventListener('fullscreenchange', handler)
   }, [])
+
+  // Intersection Observer for lazy-loading pages on mobile
+  useEffect(() => {
+    if (!isMobile || !numPages) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          const pageNum = parseInt(entry.target.dataset.pageNumber, 10)
+          if (entry.isIntersecting) {
+            setVisiblePages(prev => new Set(prev).add(pageNum))
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+
+    document.querySelectorAll('[data-page-number]').forEach(el => observer.observe(el))
+    return () => observer.disconnect()
+  }, [numPages, isMobile])
 
   const toolbar = (
     <div className="pdf-viewer__toolbar">
@@ -88,7 +110,7 @@ export default function PDFViewer({ url, filename = 'Smart_Study_Document.pdf' }
           </div>
 
         ) : isMobile ? (
-          /* ── Mobile: react-pdf — all pages stacked ─────────── */
+          /* ── Mobile: react-pdf with lazy-loading ─────────── */
           <div className="pdf-viewer__document">
             <Document
               file={url}
@@ -97,14 +119,20 @@ export default function PDFViewer({ url, filename = 'Smart_Study_Document.pdf' }
               loading={<div style={{ color: '#888', padding: '40px', textAlign: 'center' }}>Loading…</div>}
             >
               {numPages && Array.from({ length: numPages }, (_, i) => (
-                <Page
-                  key={i + 1}
-                  pageNumber={i + 1}
-                  renderAnnotationLayer={false}
-                  renderTextLayer={false}
-                  loading={null}
-                  style={{ marginBottom: '8px' }}
-                />
+                <div key={i + 1} data-page-number={i + 1} style={{ marginBottom: '8px' }}>
+                  {visiblePages.has(i + 1) ? (
+                    <Page
+                      pageNumber={i + 1}
+                      renderAnnotationLayer={false}
+                      renderTextLayer={false}
+                      loading={null}
+                    />
+                  ) : (
+                    <div style={{ height: '600px', backgroundColor: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ccc' }}>
+                      Page {i + 1}
+                    </div>
+                  )}
+                </div>
               ))}
             </Document>
           </div>
@@ -123,4 +151,5 @@ export default function PDFViewer({ url, filename = 'Smart_Study_Document.pdf' }
     </div>
   )
 }
+
 
