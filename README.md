@@ -42,3 +42,4 @@ Smart Study is a web platform for Dr. HNNCE students to access semester-wise not
 - Keep backend JSON files on persistent storage (`DATA_DIR`) so data survives redeploys.
 - Store Google Drive + admin/JWT secrets as environment variables.
 - Use catalog rebuild when JSON is lost but PDFs are still available in Drive.
+- For Render Blueprint deploys, use `render.yaml` so frontend build artifacts are generated and SPA deep links (like `/notes/:subjectId`) resolve correctly.

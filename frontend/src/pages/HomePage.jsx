@@ -23,7 +23,6 @@ export default function HomePage() {
           title: formatCourseLabel(note.subject_code || note.subject, note.subject),
           subtitle: `${branch || 'Branch'} · Sem ${note.semester} · ${note.type === 'module' ? `Module ${note.module_number}` : 'Syllabus'}`,
           uploadedAt: Date.parse(note.uploaded_at || '') || 0,
-          dateLabel: note.uploaded_at || 'No date',
           path: note.semester && branch && (note.subject_code || note.subject)
             ? `/notes/${encodeURIComponent(`${note.semester}-${branch}-${note.subject_code || note.subject}`)}`
             : '/notes',
@@ -36,7 +35,6 @@ export default function HomePage() {
         title: formatCourseLabel(paper.subject_code, paper.subject_name),
         subtitle: `Sem ${paper.semester} · ${paper.exam_type}${paper.year ? ` ${paper.year}` : ''}`,
         uploadedAt: Date.parse(paper.uploaded_at || '') || 0,
-        dateLabel: paper.uploaded_at || 'No date',
         path: paper.semester && paper.subject_code
           ? `/pyqs/${encodeURIComponent(`${paper.semester}-${paper.subject_code}`)}`
           : '/pyqs',
@@ -109,7 +107,6 @@ export default function HomePage() {
               <Link key={item.id} to={item.path} className="latest-upload-card">
                 <p className="latest-upload-card__title">{item.title}</p>
                 <p className="latest-upload-card__meta">{item.subtitle}</p>
-                <p className="latest-upload-card__date">{item.dateLabel}</p>
               </Link>
             ))}
           </div>

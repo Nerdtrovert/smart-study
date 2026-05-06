@@ -31,11 +31,14 @@ app.use('/api/admin',    adminRouter)
 
 // Serve frontend static files
 const frontendPath = path.join(__dirname, '../frontend/dist')
-app.use(express.static(frontendPath))
+const frontendIndexPath = path.join(frontendPath, 'index.html')
+app.use(express.static(frontendPath, { index: false }))
 
-// SPA fallback: redirect all non-API routes to index.html
-app.get(/(.*)/, (req, res) => {
-  res.sendFile(path.join(frontendPath, 'index.html'))
+// SPA fallback: serve index.html for all non-API routes
+app.get(/^(?!\/api(?:\/|$)).*/, (req, res, next) => {
+  res.sendFile(frontendIndexPath, err => {
+    if (err) next(err)
+  })
 })
 
 app.use(errorHandler)
