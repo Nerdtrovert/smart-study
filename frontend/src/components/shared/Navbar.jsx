@@ -1,5 +1,5 @@
 import '../../styles/Navbar.css'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import GlobalSearch from './GlobalSearch'
 import brandLogo from '../../assets/brand-logo.png'
@@ -7,6 +7,8 @@ import brandLogo from '../../assets/brand-logo.png'
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const { pathname } = useLocation()
+  const isHome = pathname === '/'
 
   const toggleMenu = () => setMenuOpen(!menuOpen)
   const closeMenu = () => setMenuOpen(false)
@@ -24,16 +26,18 @@ export default function Navbar() {
 
           {/* Mobile-only: search icon + hamburger */}
           <div className="navbar__brand-actions">
-            <button
-              className="navbar__search-btn"
-              onClick={() => setSearchOpen(true)}
-              aria-label="Open search"
-            >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-            </button>
+            {!isHome && (
+              <button
+                className="navbar__search-btn"
+                onClick={() => setSearchOpen(true)}
+                aria-label="Open search"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </button>
+            )}
 
             <button
               className="navbar__toggle"
@@ -67,17 +71,19 @@ export default function Navbar() {
           <Link to="/#requests" onClick={closeMenu}>Requests</Link>
           <NavLink to="/admin" className={({ isActive }) => isActive ? 'active' : ''} onClick={closeMenu}>Admin</NavLink>
           {/* Desktop search pill */}
-          <button
-            className="navbar__search-pill"
-            onClick={() => setSearchOpen(true)}
-            aria-label="Open search"
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <span>Search…</span>
-          </button>
+          {!isHome && (
+            <button
+              className="navbar__search-pill"
+              onClick={() => setSearchOpen(true)}
+              aria-label="Open search"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <span>Search…</span>
+            </button>
+          )}
         </div>
       </nav>
     </>

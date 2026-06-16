@@ -56,6 +56,53 @@
   color: var(--text3);
 }
 
+/* ── Hero Search Bar ────────────────────────────────────── */
+.hero__search-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 24px 0 16px;
+  position: relative;
+}
+
+.hero__search-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 18px;
+  color: var(--text3);
+  font-size: var(--fs-lg);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+.hero__search-bar:hover {
+  border-color: var(--blue);
+  background-color: var(--bg3);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.hero__search-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  stroke: var(--text3);
+}
+
+.hero__search-bar:hover .hero__search-icon {
+  stroke: var(--blue);
+}
+
+.hero__search-bar span {
+  color: var(--text2);
+}
+
 /* ── Nav Labels ─────────────────────────────────────────── */
 .nav-labels {
   display: grid;

@@ -1,8 +1,8 @@
 import '../styles/HomePage.css'
-import { useEffect, useMemo } from 'react'
-import { Link } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import RequestBox from '../components/shared/RequestBox'
+import GlobalSearch from '../components/shared/GlobalSearch'
 import { useNotes } from '../hooks/useNotes'
 import { usePYQs } from '../hooks/usePYQs'
 import { formatCourseLabel } from '../utils/courseCatalog'
@@ -11,6 +11,7 @@ import brandLogo from '../assets/brand-logo.png'
 
 export default function HomePage() {
   const location = useLocation()
+  const [searchOpen, setSearchOpen] = useState(false)
   const { notes, loading: notesLoading, error: notesError } = useNotes()
   const { pyqs, loading: pyqsLoading, error: pyqsError } = usePYQs()
 
@@ -67,15 +68,34 @@ export default function HomePage() {
   }, [location.hash])
 
   return (
-    <main className="home">
-      {/* Hero */}
-      <div className="hero">
-        <img src={brandLogo} alt="Smart Study logo" className="hero__logo" />
-        <span className="hero__eyebrow">Dr. HNNCE</span>
-        <h1 className="hero__title">Smart Study</h1>
-        <p className="hero__tagline">Study faster. Learn smarter.</p>
-        <p className="hero__sub">All notes. One place.</p>
-      </div>
+    <>
+      {searchOpen && <GlobalSearch onClose={() => setSearchOpen(false)} />}
+
+      <main className="home">
+        {/* Hero */}
+        <div className="hero">
+          <img src={brandLogo} alt="Smart Study logo" className="hero__logo" />
+          <span className="hero__eyebrow">Dr. HNNCE</span>
+          <h1 className="hero__title">Smart Study</h1>
+          <p className="hero__tagline">Study faster. Learn smarter.</p>
+          
+          <div className="hero__search-container">
+            <button
+              type="button"
+              className="hero__search-bar"
+              onClick={() => setSearchOpen(true)}
+              aria-label="Search study materials"
+            >
+              <svg className="hero__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <span>Search subjects, module notes, syllabus…</span>
+            </button>
+          </div>
+
+          <p className="hero__sub">All notes. One place.</p>
+        </div>
 
       {/* Nav labels */}
       <div className="nav-labels">
@@ -126,5 +146,6 @@ export default function HomePage() {
 
       <RequestBox />
     </main>
-  )
+  </>
+)
 }
