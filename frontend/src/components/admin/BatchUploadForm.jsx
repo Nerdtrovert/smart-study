@@ -85,6 +85,9 @@ export default function BatchUploadForm() {
     setUploading(true)
 
     for (const row of rows) {
+      if (row.status === 'done') {
+        continue
+      }
       const validationError = validateRow(row)
       if (validationError) {
         setRowStatus(row.id, 'error', validationError)
@@ -108,6 +111,13 @@ export default function BatchUploadForm() {
 
         setRowStatus(row.id, 'done')
         window.dispatchEvent(new Event('smart-study:data-updated'))
+
+        setTimeout(() => {
+          setRows(current => {
+            const filtered = current.filter(r => r.id !== row.id)
+            return filtered.length === 0 ? [emptyRow()] : filtered
+          })
+        }, 5000)
       } catch (err) {
         setRowStatus(row.id, 'error', err.response?.data?.error || 'Upload failed')
       }
