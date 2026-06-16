@@ -34,6 +34,9 @@ export default function PYQsPage() {
           sample: paper,
           subjectCode,
           pyqCount: 0,
+          qbCount: 0,
+          impCount: 0,
+          assignmentCount: 0,
           cieCount: 0,
           latestAt: 0,
           label: formatCourseLabel(subjectCode, paper.subject_name),
@@ -41,7 +44,10 @@ export default function PYQsPage() {
       }
 
       const entry = byCode.get(subjectCode)
-      if (paper.exam_type === 'SEE') entry.pyqCount += 1
+      if (paper.exam_type === 'SEE' || paper.exam_type === 'PYQ') entry.pyqCount += 1
+      else if (paper.exam_type === 'QB') entry.qbCount += 1
+      else if (paper.exam_type === 'IMP') entry.impCount += 1
+      else if (paper.exam_type === 'ASSIGNMENT') entry.assignmentCount += 1
       else entry.cieCount += 1
       const uploadedAt = Date.parse(paper.uploaded_at || '') || 0
       entry.latestAt = Math.max(entry.latestAt, uploadedAt)
@@ -62,12 +68,12 @@ export default function PYQsPage() {
     ? null
     : searchTerm
     ? 'No courses match this search in the selected semester.'
-    : 'No PYQs uploaded for this semester yet.'
+    : 'No questions/question banks uploaded for this semester yet.'
 
   return (
     <main className="notes-page">
       <div className="notes-page__header">
-        <h1 className="notes-page__title">PYQs</h1>
+        <h1 className="notes-page__title">Important Questions</h1>
         {hasSemesterSelection ? (
           <>
             <Link to="/pyqs" className="notes-page__back">← All schemes</Link>
@@ -76,7 +82,7 @@ export default function PYQsPage() {
             </p>
           </>
         ) : (
-          <p className="notes-page__subtitle">Choose your scheme and semester to browse courses and papers.</p>
+          <p className="notes-page__subtitle">Choose your scheme and semester to browse courses and resources.</p>
         )}
       </div>
 
@@ -128,7 +134,15 @@ export default function PYQsPage() {
                     <div className="subject-card__footer">
                       <div className="subject-card__count">
                         <span className="subject-card__dot" />
-                        {subject.pyqCount} PYQ{subject.pyqCount !== 1 ? 's' : ''} · {subject.cieCount} CIE
+                        {(() => {
+                          const parts = []
+                          if (subject.pyqCount > 0) parts.push(`${subject.pyqCount} PYQ${subject.pyqCount !== 1 ? 's' : ''}`)
+                          if (subject.qbCount > 0) parts.push(`${subject.qbCount} Q-Bank${subject.qbCount !== 1 ? 's' : ''}`)
+                          if (subject.impCount > 0) parts.push(`${subject.impCount} Imp Qs`)
+                          if (subject.assignmentCount > 0) parts.push(`${subject.assignmentCount} Assignment${subject.assignmentCount !== 1 ? 's' : ''}`)
+                          if (subject.cieCount > 0) parts.push(`${subject.cieCount} CIE`)
+                          return parts.length > 0 ? parts.join(' · ') : '0 resources'
+                        })()}
                       </div>
                       <span className="subject-card__arrow">→</span>
                     </div>

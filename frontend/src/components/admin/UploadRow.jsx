@@ -4,16 +4,16 @@ const NOTE_TYPES = [
   { value: 'syllabus', label: 'Syllabus' },
 ]
 const EXAM_TYPES = [
-  { value: 'CIE1', label: 'CIE 1' },
-  { value: 'CIE2', label: 'CIE 2' },
-  { value: 'CIE3', label: 'CIE 3' },
-  { value: 'SEE', label: 'PYQ / SEE' },
+  { value: 'PYQ', label: 'Previous Year Question (PYQ)' },
+  { value: 'QB', label: 'Question Bank' },
+  { value: 'IMP', label: 'Important Questions' },
+  { value: 'ASSIGNMENT', label: 'Assignment Questions' },
 ]
 
 export default function UploadRow({ row, onChange, onRemove }) {
   const update = (updates) => onChange(row.id, updates)
   const isNotes = row.type === 'notes'
-  const isSEE = row.exam_type === 'SEE'
+  const isSEE = row.exam_type === 'SEE' || row.exam_type === 'PYQ'
 
   return (
     <tr className={`upload-row row--${row.status}`}>

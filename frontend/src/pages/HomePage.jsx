@@ -30,15 +30,26 @@ export default function HomePage() {
       })
 
     const pyqUploads = pyqs
-      .map(paper => ({
-        id: `pyq-${paper.id}`,
-        title: formatCourseLabel(paper.subject_code, paper.subject_name),
-        subtitle: `Sem ${paper.semester} · ${paper.exam_type}${paper.year ? ` ${paper.year}` : ''}`,
-        uploadedAt: Date.parse(paper.uploaded_at || '') || 0,
-        path: paper.semester && paper.subject_code
-          ? `/pyqs/${encodeURIComponent(`${paper.semester}-${paper.subject_code}`)}`
-          : '/pyqs',
-      }))
+      .map(paper => {
+        const typeLabel = paper.exam_type === 'QB' 
+          ? 'Q-Bank' 
+          : paper.exam_type === 'IMP' 
+            ? 'Imp Qs' 
+            : paper.exam_type === 'ASSIGNMENT' 
+              ? 'Assignment' 
+              : paper.exam_type === 'SEE'
+                ? 'PYQ'
+                : paper.exam_type
+        return {
+          id: `pyq-${paper.id}`,
+          title: formatCourseLabel(paper.subject_code, paper.subject_name),
+          subtitle: `Sem ${paper.semester} · ${typeLabel}${paper.year ? ` ${paper.year}` : ''}`,
+          uploadedAt: Date.parse(paper.uploaded_at || '') || 0,
+          path: paper.semester && paper.subject_code
+            ? `/pyqs/${encodeURIComponent(`${paper.semester}-${paper.subject_code}`)}`
+            : '/pyqs',
+        }
+      })
 
     return [...noteUploads, ...pyqUploads]
       .sort((a, b) => b.uploadedAt - a.uploadedAt)
@@ -85,8 +96,8 @@ export default function HomePage() {
               <path d="M16 4v4h4M9 12h6M9 16h6" />
             </svg>
           </div>
-          <h2>PYQs</h2>
-          <p>Previous year and CIE papers</p>
+          <h2>Important Questions</h2>
+          <p>Question banks, PYQs, and assignments</p>
         </Link>
       </div>
 

@@ -5,7 +5,7 @@ export const SCHEMES = [
     semesters: [4],
     descriptions: {
       notes: 'Currently available for 4th semester notes.',
-      pyqs: 'Currently available for 4th semester PYQs.',
+      pyqs: 'Currently available for 4th semester question banks and PYQs.',
     },
   },
   {
@@ -14,7 +14,7 @@ export const SCHEMES = [
     semesters: [2],
     descriptions: {
       notes: 'Currently available for 2nd semester notes.',
-      pyqs: 'Currently available for 2nd semester PYQs.',
+      pyqs: 'Currently available for 2nd semester question banks and PYQs.',
     },
   },
 ]

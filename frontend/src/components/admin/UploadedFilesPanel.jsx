@@ -9,7 +9,7 @@ function EditModal({ file, onClose, onSaved }) {
   const [form, setForm] = useState(
     isNote
       ? { title: file.title || '', subject_code: file.subject_code || file.subject || '', module_number: file.module_number ?? '', semester: file.semester || '' }
-      : { subject_code: file.subject_code || '', exam_type: file.exam_type || '', year: file.year || '', paper_number: file.paper_number || '', semester: file.semester || '' }
+      : { title: file.title || '', subject_code: file.subject_code || '', exam_type: file.exam_type || '', year: file.year || '', paper_number: file.paper_number || '', semester: file.semester || '' }
   )
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -20,7 +20,12 @@ function EditModal({ file, onClose, onSaved }) {
     setError('')
     try {
       const kind = isNote ? 'note' : 'pyq'
-      const { data } = await axios.patch(`/api/upload/${kind}/${file.id}`, form, {
+      const payload = { ...form }
+      if (!isNote && payload.exam_type !== 'PYQ' && payload.exam_type !== 'SEE') {
+        payload.year = null
+        payload.paper_number = null
+      }
+      const { data } = await axios.patch(`/api/upload/${kind}/${file.id}`, payload, {
         headers: { Authorization: `Bearer ${token}` }
       })
       onSaved(data.record)
@@ -66,28 +71,41 @@ function EditModal({ file, onClose, onSaved }) {
             </>
           ) : (
             <>
+              <label className="edit-modal__label">
+                Title
+                <input className="input" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="e.g. Question Bank Module 1" />
+              </label>
               <div className="edit-modal__row">
                 <label className="edit-modal__label">
                   Subject Code
                   <input className="input" value={form.subject_code} onChange={e => setForm({ ...form, subject_code: e.target.value })} placeholder="e.g. BCS401" />
                 </label>
                 <label className="edit-modal__label">
-                  Exam Type
+                  Type
                   <select className="input" value={form.exam_type} onChange={e => setForm({ ...form, exam_type: e.target.value })}>
-                    <option value="CIE">CIE</option>
-                    <option value="SEE">SEE</option>
+                    <option value="PYQ">Previous Year Question (PYQ)</option>
+                    <option value="QB">Question Bank</option>
+                    <option value="IMP">Important Questions</option>
+                    <option value="ASSIGNMENT">Assignment Questions</option>
+                    {!['PYQ', 'QB', 'IMP', 'ASSIGNMENT'].includes(file.exam_type) && (
+                      <option value={file.exam_type}>{file.exam_type}</option>
+                    )}
                   </select>
                 </label>
               </div>
               <div className="edit-modal__row">
-                <label className="edit-modal__label">
-                  Year
-                  <input className="input" type="number" value={form.year} onChange={e => setForm({ ...form, year: e.target.value })} placeholder="2024" />
-                </label>
-                <label className="edit-modal__label">
-                  Paper #
-                  <input className="input" type="number" value={form.paper_number} onChange={e => setForm({ ...form, paper_number: e.target.value })} placeholder="1" />
-                </label>
+                {(form.exam_type === 'SEE' || form.exam_type === 'PYQ') && (
+                  <>
+                    <label className="edit-modal__label">
+                      Year
+                      <input className="input" type="number" value={form.year} onChange={e => setForm({ ...form, year: e.target.value })} placeholder="2024" />
+                    </label>
+                    <label className="edit-modal__label">
+                      Paper #
+                      <input className="input" type="number" value={form.paper_number} onChange={e => setForm({ ...form, paper_number: e.target.value })} placeholder="1" />
+                    </label>
+                  </>
+                )}
                 <label className="edit-modal__label">
                   Semester
                   <input className="input" type="number" min="1" max="8" value={form.semester} onChange={e => setForm({ ...form, semester: e.target.value })} placeholder="4" />
@@ -142,9 +160,20 @@ export default function UploadedFilesPanel({ admin }) {
         if (f.id !== updatedRecord.id) return f
         // rebuild the display label
         const isNote = f.collection === 'notes'
-        const label = isNote
-          ? `${updatedRecord.subject_code || updatedRecord.subject} — ${updatedRecord.title}`
-          : `${updatedRecord.subject_code} ${updatedRecord.exam_type}${updatedRecord.year ? ` ${updatedRecord.year}` : ''}`
+        let label = ''
+        if (isNote) {
+          label = `${updatedRecord.subject_code || updatedRecord.subject} — ${updatedRecord.title}`
+        } else {
+          let suffix = updatedRecord.exam_type
+          if (updatedRecord.exam_type === 'SEE' || updatedRecord.exam_type === 'PYQ') {
+            suffix = `PYQ${updatedRecord.year ? ` ${updatedRecord.year}` : ''}${updatedRecord.paper_number ? ` Paper ${updatedRecord.paper_number}` : ''}`
+          } else if (updatedRecord.title) {
+            suffix = `${updatedRecord.exam_type === 'QB' ? 'Q-Bank' : updatedRecord.exam_type === 'IMP' ? 'Imp Qs' : updatedRecord.exam_type === 'ASSIGNMENT' ? 'Assignment' : updatedRecord.exam_type} — ${updatedRecord.title}`
+          } else if (updatedRecord.year) {
+            suffix = `${updatedRecord.exam_type}${updatedRecord.year ? ` ${updatedRecord.year}` : ''}`
+          }
+          label = `${updatedRecord.subject_code} ${suffix}`
+        }
         return { ...f, ...updatedRecord, label }
       })
     )

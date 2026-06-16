@@ -9,6 +9,7 @@ const { normalizeBranch, isValidBranch, getBranchOptions } = require('../utils/b
 const { appendRecord, readJSON, removeRecord, updateRecord } = require('../utils/jsonStore')
 const { appendLog } = require('../utils/adminLog')
 const { extractDriveFileId } = require('../utils/pdfLinks')
+const filesRouter = require('./files')
 const router = express.Router()
 
 const uploadDir = path.join(os.tmpdir(), 'smart-study-uploads')
@@ -37,8 +38,8 @@ function buildNoteFilename({ semester, branch, subjectCode, noteType, moduleNumb
 
 function buildPyqFilename({ semester, subjectCode, examType, year, paperNumber }) {
   const parts = ['PYQ', `SEM${semester}`, slugPart(subjectCode), slugPart(examType)]
-  if (examType === 'SEE' && year) parts.push(`${year}`)
-  if (examType === 'SEE' && paperNumber) parts.push(`PAPER${paperNumber}`)
+  if ((examType === 'SEE' || examType === 'PYQ') && year) parts.push(`${year}`)
+  if ((examType === 'SEE' || examType === 'PYQ') && paperNumber) parts.push(`PAPER${paperNumber}`)
   return `${parts.join('_')}.pdf`
 }
 
@@ -132,6 +133,7 @@ router.post('/note', authMiddleware, upload.single('file'), async (req, res, nex
       uploaded_at: uploadedAt
     }
     await appendRecord('notes', record)
+    filesRouter.invalidateRecordCache()
     appendLog('note_upload', {
       actor: req.admin.username,
       actorName: req.admin.name,
@@ -154,10 +156,11 @@ router.post('/pyq', authMiddleware, upload.single('file'), async (req, res, next
   try {
     const { semester, subject_code, exam_type, year, paper_number } = req.body
     const normalizedCode = normalizeCourseCode(subject_code)
+    const isPyqOrSee = exam_type === 'SEE' || exam_type === 'PYQ'
     const validationError = requireFields(
       { ...req.body, subject_code: normalizedCode },
       req.file,
-      exam_type === 'SEE'
+      isPyqOrSee
         ? ['semester', 'subject_code', 'exam_type', 'year', 'paper_number']
         : ['semester', 'subject_code', 'exam_type']
     )
@@ -172,8 +175,8 @@ router.post('/pyq', authMiddleware, upload.single('file'), async (req, res, next
       semester: Number(semester),
       subjectCode: normalizedCode,
       examType: exam_type,
-      year: exam_type === 'SEE' ? Number(year) : null,
-      paperNumber: exam_type === 'SEE' ? Number(paper_number) : null,
+      year: isPyqOrSee ? Number(year) : null,
+      paperNumber: isPyqOrSee ? Number(paper_number) : null,
     })
     const driveFile = await uploadToDrive(req.file.path, pyqFilename, {
       smartStudyType: 'pyq',
@@ -181,8 +184,9 @@ router.post('/pyq', authMiddleware, upload.single('file'), async (req, res, next
       subject_code: normalizedCode,
       subject_name: normalizedCode,
       exam_type,
-      year: exam_type === 'SEE' ? Number(year) : '',
-      paper_number: exam_type === 'SEE' ? Number(paper_number) : '',
+      year: isPyqOrSee ? Number(year) : '',
+      paper_number: isPyqOrSee ? Number(paper_number) : '',
+      title: req.file.originalname.replace(/\.[^/.]+$/, ""),
       original_name: req.file.originalname.replace('.pdf', ''),
       uploaded_at: uploadedAt,
     })
@@ -193,13 +197,15 @@ router.post('/pyq', authMiddleware, upload.single('file'), async (req, res, next
       subject_code: normalizedCode,
       subject_name: normalizedCode,
       exam_type,
-      year: exam_type === 'SEE' ? Number(year) : null,
-      paper_number: exam_type === 'SEE' ? Number(paper_number) : null,
+      year: isPyqOrSee ? Number(year) : null,
+      paper_number: isPyqOrSee ? Number(paper_number) : null,
+      title: req.file.originalname.replace(/\.[^/.]+$/, ""),
       drive_file_id: driveFile.fileId,
       drive_url: `/api/files/${driveFile.fileId}`,
       uploaded_at: uploadedAt
     }
     await appendRecord('pyqs', record)
+    filesRouter.invalidateRecordCache()
     appendLog('pyq_upload', {
       actor: req.admin.username,
       actorName: req.admin.name,
@@ -225,6 +231,7 @@ router.delete('/note/:id', authMiddleware, async (req, res, next) => {
 
     await deleteStoredDriveFile(record)
     await removeRecord('notes', req.params.id)
+    filesRouter.invalidateRecordCache()
 
     appendLog('note_delete', {
       actor: req.admin.username,
@@ -247,6 +254,7 @@ router.delete('/pyq/:id', authMiddleware, async (req, res, next) => {
 
     await deleteStoredDriveFile(record)
     await removeRecord('pyqs', req.params.id)
+    filesRouter.invalidateRecordCache()
 
     appendLog('pyq_delete', {
       actor: req.admin.username,
@@ -281,6 +289,7 @@ router.patch('/note/:id', authMiddleware, async (req, res, next) => {
 
     const updated = await updateRecord('notes', req.params.id, fields)
     if (!updated) return res.status(404).json({ error: 'Note not found' })
+    filesRouter.invalidateRecordCache()
 
     appendLog('note_edit', {
       actor: req.admin.username,
@@ -297,7 +306,7 @@ router.patch('/note/:id', authMiddleware, async (req, res, next) => {
 // PATCH /api/upload/pyq/:id  — edit editable fields
 router.patch('/pyq/:id', authMiddleware, async (req, res, next) => {
   try {
-    const allowed = ['subject_code', 'subject_name', 'exam_type', 'year', 'paper_number', 'semester']
+    const allowed = ['subject_code', 'subject_name', 'exam_type', 'year', 'paper_number', 'semester', 'title']
     const fields = {}
     for (const key of allowed) {
       if (req.body[key] !== undefined) fields[key] = req.body[key]
@@ -305,11 +314,20 @@ router.patch('/pyq/:id', authMiddleware, async (req, res, next) => {
     if (fields.subject_code !== undefined) fields.subject_code = normalizeCourseCode(fields.subject_code)
     if (fields.exam_type !== undefined) fields.exam_type = `${fields.exam_type}`.trim().toUpperCase()
     if (fields.semester !== undefined && `${fields.semester}` !== '') fields.semester = Number(fields.semester)
-    if (fields.year !== undefined && `${fields.year}` !== '') fields.year = Number(fields.year)
-    if (fields.paper_number !== undefined && `${fields.paper_number}` !== '') fields.paper_number = Number(fields.paper_number)
+    if (fields.year !== undefined && fields.year !== null && `${fields.year}` !== '') {
+      fields.year = Number(fields.year)
+    } else if (fields.year === null || `${fields.year}` === '') {
+      fields.year = null
+    }
+    if (fields.paper_number !== undefined && fields.paper_number !== null && `${fields.paper_number}` !== '') {
+      fields.paper_number = Number(fields.paper_number)
+    } else if (fields.paper_number === null || `${fields.paper_number}` === '') {
+      fields.paper_number = null
+    }
 
     const updated = await updateRecord('pyqs', req.params.id, fields)
     if (!updated) return res.status(404).json({ error: 'PYQ not found' })
+    filesRouter.invalidateRecordCache()
 
     appendLog('pyq_edit', {
       actor: req.admin.username,

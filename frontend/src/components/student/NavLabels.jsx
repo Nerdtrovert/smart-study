@@ -11,8 +11,8 @@ export default function NavLabels() {
       </Link>
       <Link to="/pyqs">
         <div>
-          <h2>PYQs</h2>
-          <p>Previous year and CIE papers</p>
+          <h2>Important Questions</h2>
+          <p>Question banks, PYQs, and assignments</p>
         </div>
       </Link>
     </div>

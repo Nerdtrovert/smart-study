@@ -13,8 +13,8 @@ function titleFromName(name = '') {
 
 function normalizeExamType(value = '') {
   const cleaned = `${value}`.trim().toUpperCase().replace(/\s+/g, '')
-  if (cleaned === 'SEE' || cleaned === 'PYQ') return 'SEE'
-  if (cleaned === 'CIE1' || cleaned === 'CIE2' || cleaned === 'CIE3') return cleaned
+  if (cleaned === 'SEE' || cleaned === 'PYQ') return 'PYQ'
+  if (['QB', 'IMP', 'ASSIGNMENT', 'CIE1', 'CIE2', 'CIE3'].includes(cleaned)) return cleaned
   return ''
 }
 
@@ -46,10 +46,16 @@ function parseFilename(name = '') {
       : ''
 
   const examType = /\bSEE\b|\bPYQ\b/.test(upper)
-    ? 'SEE'
-    : cieMatch
-      ? `CIE${cieMatch[1]}`
-      : ''
+    ? 'PYQ'
+    : /\bQB\b|\bQUESTION[-_ ]?BANK\b/.test(upper)
+      ? 'QB'
+      : /\bIMP\b|\bIMPORTANT\b/.test(upper)
+        ? 'IMP'
+        : /\bASSIGNMENT\b/.test(upper)
+          ? 'ASSIGNMENT'
+          : cieMatch
+            ? `CIE${cieMatch[1]}`
+            : ''
 
   return {
     title: stem,
@@ -107,8 +113,8 @@ function buildPyqRecord(file, appProperties = {}) {
   if (!semester) return { error: 'Missing semester' }
   if (!subjectCode) return { error: 'Missing subject code' }
   if (!examType) return { error: 'Missing exam type' }
-  if (examType === 'SEE' && !year) return { error: 'Missing SEE year' }
-  if (examType === 'SEE' && !paperNumber) return { error: 'Missing SEE paper number' }
+  if ((examType === 'SEE' || examType === 'PYQ') && !year) return { error: 'Missing SEE/PYQ year' }
+  if ((examType === 'SEE' || examType === 'PYQ') && !paperNumber) return { error: 'Missing SEE/PYQ paper number' }
 
   return {
     id: `pyq_${file.id}`,
@@ -116,8 +122,9 @@ function buildPyqRecord(file, appProperties = {}) {
     subject_code: subjectCode,
     subject_name: `${appProperties.subject_name || subjectCode}`.trim() || subjectCode,
     exam_type: examType,
-    year: examType === 'SEE' ? year : null,
-    paper_number: examType === 'SEE' ? paperNumber : null,
+    year: (examType === 'SEE' || examType === 'PYQ') ? year : null,
+    paper_number: (examType === 'SEE' || examType === 'PYQ') ? paperNumber : null,
+    title: `${appProperties.title || parsed.title || titleFromName(file.name)}`.trim(),
     drive_file_id: file.id,
     drive_url: `/api/files/${file.id}`,
     uploaded_at: uploadedAt,

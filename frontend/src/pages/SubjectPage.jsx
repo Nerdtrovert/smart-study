@@ -141,7 +141,7 @@ export default function SubjectPage() {
     }))
   const schemeId = getSchemeIdForSemester(parsed.semester)
   const backPath = `/notes/scheme/${schemeId}/semester/${parsed.semester}`
-  const pyqPath = `/pyqs/scheme/${schemeId}/semester/${parsed.semester}`
+  const pyqSubjectPath = `/pyqs/${encodeURIComponent(`${parsed.semester}-${parsed.subjectCode}`)}`
 
   if (subjectNotes.length === 0) {
     return (
@@ -174,10 +174,10 @@ export default function SubjectPage() {
         }
       </div>
 
-      <Link to={pyqPath} className="subject-page__pyq-link">
+      <Link to={pyqSubjectPath} className="subject-page__pyq-link">
         <div className="subject-page__pyq-link__left">
-          <h3>Previous Year Questions</h3>
-          <p>CIE and SEE papers for Semester {parsed.semester}</p>
+          <h3>Question Banks & PYQs</h3>
+          <p>Important questions, assignments, and exam papers for {formatCourseLabel(parsed.subjectCode, subjectName)}</p>
         </div>
         <span className="subject-page__pyq-link__arrow">→</span>
       </Link>

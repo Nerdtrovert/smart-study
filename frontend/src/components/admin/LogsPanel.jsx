@@ -95,7 +95,7 @@ export default function LogsPanel({ admin }) {
             Download requests
           </button>
           <button type="button" className="btn btn--ghost" onClick={() => downloadDataFile('pyqs')}>
-            Download pyqs
+            Download PYQs/QBs
           </button>
           <button type="button" className="btn btn--blue" onClick={() => downloadDataFile('notes')}>
             Download notes

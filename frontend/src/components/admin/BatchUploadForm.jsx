@@ -20,9 +20,7 @@ const emptyRow = () => ({
   subject_code: '',
   note_type: 'module',
   module_number: '',
-  exam_type: 'CIE1',
-  year: '',
-  paper_number: '',
+  exam_type: 'PYQ',
   status: 'idle',
   error: '',
 })
@@ -38,8 +36,8 @@ function validateRow(row) {
     return null
   }
 
-  if (row.exam_type === 'SEE' && !row.year) return 'Year required'
-  if (row.exam_type === 'SEE' && !row.paper_number) return 'Paper required'
+  if ((row.exam_type === 'SEE' || row.exam_type === 'PYQ') && !row.year) return 'Year required'
+  if ((row.exam_type === 'SEE' || row.exam_type === 'PYQ') && !row.paper_number) return 'Paper required'
   return null
 }
 
@@ -140,7 +138,7 @@ export default function BatchUploadForm() {
 
       <div className="catalog-health">
         <p className="catalog-health__title">Course label source: `src/data/courseCodes.json`</p>
-        <p className="catalog-health__sub">Upload needs only course code. Add code-name mapping in this file to show <strong>CODE - Name</strong> in Notes/PYQs.</p>
+        <p className="catalog-health__sub">Upload needs only course code. Add code-name mapping in this file to show <strong>CODE - Name</strong> in Notes/Questions.</p>
         {notesLoading || pyqsLoading ? (
           <p className="catalog-health__status">Checking uploaded codes...</p>
         ) : missingCodes.length > 0 ? (

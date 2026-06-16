@@ -63,7 +63,7 @@ export default function Navbar() {
         <div className={`navbar__links ${menuOpen ? 'navbar__links--open' : ''}`}>
           <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''} onClick={closeMenu}>Home</NavLink>
           <NavLink to="/notes" className={({ isActive }) => isActive ? 'active' : ''} onClick={closeMenu}>Notes</NavLink>
-          <NavLink to="/pyqs" className={({ isActive }) => isActive ? 'active' : ''} onClick={closeMenu}>PYQs</NavLink>
+          <NavLink to="/pyqs" className={({ isActive }) => isActive ? 'active' : ''} onClick={closeMenu}>Important Questions</NavLink>
           <Link to="/#requests" onClick={closeMenu}>Requests</Link>
           <NavLink to="/admin" className={({ isActive }) => isActive ? 'active' : ''} onClick={closeMenu}>Admin</NavLink>
           {/* Desktop search pill */}
